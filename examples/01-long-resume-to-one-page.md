@@ -1,4 +1,4 @@
-# Example 01 — Long Resume to One-Page Module
+# 示例 01 — 长简历如何压缩成一页纸
 
 ## Before
 

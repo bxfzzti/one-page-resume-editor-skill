@@ -1,4 +1,4 @@
-# Example 03 — Collaboration Is Not Industry Experience
+# 示例 03 — 协同经验不等于行业经验
 
 ## Source Facts
 

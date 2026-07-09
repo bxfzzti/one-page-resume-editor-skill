@@ -1,4 +1,4 @@
-# Example 02 — Compressing a Short Stint
+# 示例 02 — 短经历如何保留但降权
 
 ## Scenario
 

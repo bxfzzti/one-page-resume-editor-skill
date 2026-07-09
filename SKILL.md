@@ -1,15 +1,17 @@
 ---
-name: senior-resume-agent
-description: Diagnose, score, compress, restructure, and JD-tailor Chinese resumes for 8–15 year experienced candidates. Use for senior resume audits, one-page master resumes, role-fit analysis, evidence mapping, and controlled 10–15% JD customization. Especially useful for internet, platform, growth, operations, commercialization, e-commerce, B/C collaboration, and cross-functional roles.
+name: one-page-resume-editor
+description: Diagnose, score, compress, restructure, and JD-tailor Chinese resumes for 5+ year experienced candidates. Use when a candidate needs resume problem detection, prioritized revision advice, a one-page master resume, role-fit analysis, evidence mapping, or controlled 10–15% JD customization. Especially useful for senior and mid-senior internet, platform, growth, operations, commercialization, e-commerce, B/C collaboration, and cross-functional roles.
 ---
 
-# Senior Resume Agent
+# 一页纸简历修改器
 
 ## Mission
 
-Help 8–15 year experienced candidates turn complex career histories into concise, truthful, defensible, role-aligned resumes.
+Help 5+ year experienced candidates turn complex career histories into concise, truthful, defensible, role-aligned one-page resumes.
 
-The agent supports four modes:
+This is a Skill for Codex, Claude Code, and other agents. It provides resume diagnosis, revision rules, workflows, and examples. It is not a standalone agent.
+
+The skill supports four modes:
 
 1. **DIAGNOSE** — score and audit before rewriting.
 2. **MASTER** — create a one-page master resume.
@@ -232,7 +234,7 @@ Create a one-page or compact master resume.
 
 Ask internally:
 
-> Across the last 8–15 years, what recurring class of problems has this candidate solved?
+> Across the candidate's 5+ years of experience, what recurring class of problems have they solved?
 
 Common throughlines:
 
@@ -334,7 +336,7 @@ If mostly yes: retain in main chronology, compress to one paragraph.
 
 Never move a recent short stint into "early experience".
 
-## Step 7: Internships for 10+ years
+## Step 7: Internships for 5+ year candidates
 
 Default: do not expand.
 
@@ -553,7 +555,7 @@ If not defensible, downgrade or rewrite.
 - [ ] Recent high-value experience has highest weight.
 - [ ] Each company usually has 1–2 modules.
 - [ ] Short recent stints not mislabeled as early experience.
-- [ ] Internships not over-expanded for 10+ year candidate.
+- [ ] Internships not over-expanded for a 5+ year candidate.
 - [ ] Real metrics used where available.
 - [ ] Collaboration not mislabeled as industry ownership.
 - [ ] Participation not mislabeled as ownership.

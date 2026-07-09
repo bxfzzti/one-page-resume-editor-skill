@@ -1,4 +1,4 @@
-# Example 05 — JD Tailoring
+# 示例 05 — JD 证据映射与受控定制
 
 ## JD Snapshot
 

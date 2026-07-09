@@ -1,4 +1,4 @@
-# Example 04 — Resume Diagnostic Score
+# 示例 04 — 先评分诊断，再决定怎么改
 
 ## Input Snapshot
 
