@@ -121,6 +121,7 @@ and incorrect experience weighting.
 - `03-collaboration-vs-industry-experience.md`：协同经验不等于行业经验
 - `04-resume-diagnostic-score.md`：先评分诊断，再决定怎么改
 - `05-jd-tailoring.md`：JD 证据映射与受控定制
+- `06-single-company-long-tenure.md`：单公司多年经历如何按能力维度拆分
 
 ## Repository Structure
 
@@ -133,7 +134,8 @@ one-page-resume-editor-skill/
     ├── 02-short-stint-compression.md
     ├── 03-collaboration-vs-industry-experience.md
     ├── 04-resume-diagnostic-score.md
-    └── 05-jd-tailoring.md
+    ├── 05-jd-tailoring.md
+    └── 06-single-company-long-tenure.md
 ```
 
 ## Suggested License

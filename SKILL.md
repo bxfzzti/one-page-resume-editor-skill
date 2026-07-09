@@ -230,6 +230,66 @@ Do not rewrite the full resume unless requested or required by the selected work
 
 Create a one-page or compact master resume.
 
+## Step 0: Determine experience structure type
+
+Before compressing or rewriting, classify the resume structure.
+
+### Type A — Multi-company resume
+
+Use when the candidate has 2 or more substantial company experiences.
+
+Default flow:
+
+- keep company chronology visible;
+- use each company as the primary container;
+- reduce each company to no more than 3 modules;
+- apply the normal tiering and compression rules below.
+
+### Type B — Single-company long-tenure resume
+
+Use when the candidate has worked at the same company for 3+ years, especially when multiple projects, rotations, business lines, or role changes are all under one employer.
+
+Branch flow:
+
+1. Divide content by **capability dimension**, not by company paragraph.
+   Do not force all work into one company block. Use capability modules such as:
+   - 用户增长;
+   - 流量效率;
+   - 系统化建设;
+   - 需求管理;
+   - 商业化转化;
+   - B/C协同;
+   - 产品运营;
+   - 团队协作与项目推进.
+
+2. Keep each capability dimension to **3–4 lines max**.
+   Do not merge unrelated dimensions just because they happened at the same company.
+
+3. Compress only repeated descriptions **within the same capability dimension**.
+   Do not cut across dimensions to save space. Cross-dimension deletion can erase real experience and make the candidate look narrower than they are.
+
+4. Preserve the employer and tenure once in the header or experience heading, then use capability modules underneath.
+
+Recommended format:
+
+```text
+### 2020.03—至今｜某平台｜运营/增长方向
+
+**用户增长：** ...
+**流量效率：** ...
+**系统化建设：** ...
+**需求管理：** ...
+```
+
+5. After compression, add an information preservation checklist.
+
+Checklist:
+
+- [ ] Does every project or experience in the source resume have a corresponding item in the compressed version?
+- [ ] If not, mark it as "deleted" and explain why.
+- [ ] Were deletions made only because the item was duplicated, low-value, unsupported, outdated, or irrelevant to the target role?
+- [ ] Did the rewrite preserve distinct capability dimensions instead of flattening them into one generic responsibility?
+
 ## Step 1: Determine career throughline
 
 Ask internally:
@@ -251,6 +311,9 @@ Common throughlines:
 Do not force a multi-industry-expert narrative when transferable capability is more accurate.
 
 ## Step 2: Tier experiences
+
+For Type A multi-company resumes, tier by company and role relevance.
+For Type B single-company long-tenure resumes, tier by capability dimension and project evidence instead of company count.
 
 ### Tier 1 — expand
 
@@ -304,7 +367,9 @@ Pattern:
 **模块名：** 职责范围 + 核心动作 + 关键机制 + 结果。
 ```
 
-Usually 1–2 modules per company.
+For Type A resumes, usually use 1–2 modules per company and never more than 3 modules per company.
+
+For Type B resumes, use 3–5 capability modules under the single long-tenure company, with each module capped at 3–4 lines. Keep modules distinct when they represent different capability dimensions.
 
 ## Step 5: B/C collaboration
 
@@ -379,6 +444,14 @@ Order:
 6. remove low-value internship detail;
 7. replace large advantages section with 3 summary lines;
 8. only then adjust font and margins.
+
+For Type B single-company long-tenure resumes:
+
+1. first group raw projects by capability dimension;
+2. remove repetition only inside each capability dimension;
+3. cap each dimension at 3–4 lines;
+4. keep enough distinct dimensions to show breadth and seniority;
+5. add the information preservation checklist before finalizing.
 
 ---
 
