@@ -1,10 +1,10 @@
 # 一页纸简历修改器
 
-适合 **5 年以上中高阶求职者** 的简历诊断与改写 Skill。
+适合 **5 年以上中高阶求职者** 的简历诊断与改写技能。
 
 它不是简单润色工具，而是先自动识别简历里的核心问题，再给出可执行的修改建议，帮助你把复杂经历压缩成一份定位清晰、证据充分、可面试、可投递的一页纸简历。
 
-这个仓库提供的是 `SKILL.md`：一套可被 Codex、Claude Code 或其他 Agent 调用的简历修改规则、流程和示例。它本身是 Skill，不是独立 Agent。
+这个仓库提供的是 `SKILL.md`：一套可被 Codex、Claude Code 或其他智能体调用的简历修改规则、流程和示例。它本身是技能，不是独立智能体。
 
 ## 适用场景
 
@@ -28,54 +28,53 @@
 ### 1. 先诊断，不急着改
 
 ```text
-Read SKILL.md and run DIAGNOSE mode on my resume.
-Score all dimensions, identify my career throughline,
-tier my experiences, and list the top 3 problems.
-Do not rewrite the full resume yet.
+请阅读 SKILL.md，并用“诊断模式”分析我的简历。
+请给出各维度评分，识别职业主线，划分经历权重，
+并列出最重要的 3 个问题。
+先不要直接重写完整简历。
 ```
 
 ### 2. 生成一页纸主简历
 
 ```text
-Read SKILL.md.
-Use MASTER mode to create a one-page Chinese master resume.
-Keep claims interview-defensible.
-Do not invent metrics.
+请阅读 SKILL.md。
+请用“主简历模式”生成一份中文一页纸主简历。
+所有表达都要经得起面试追问。
+不要虚构数据。
 ```
 
 ### 3. 输入 JD 做轻定制
 
 ```text
-Read SKILL.md and use TAILOR mode.
-Compare my master resume with the JD.
-Extract the top 3 requirements, build an evidence map,
-calculate fit score, identify gaps, and customize only 10–15%.
-Do not add unsupported keywords or experience.
+请阅读 SKILL.md，并用“定制模式”处理。
+请对比我的主简历和目标 JD，
+提取最重要的 3 个要求，建立证据映射，
+计算匹配分，识别差距，并且只做 10%–15% 的轻定制。
+不要增加没有事实支撑的关键词或经历。
 ```
 
 ### 4. 只审查风险
 
 ```text
-Read SKILL.md and use REVIEW mode.
-Find overclaims, weak metrics, internal jargon,
-repeated responsibilities, timeline issues,
-and incorrect experience weighting.
+请阅读 SKILL.md，并用“审查模式”处理。
+请找出表达夸大、数据薄弱、内部黑话、
+职责重复、时间线问题和经历权重错误。
 ```
 
 ## 诊断维度
 
 总分 100，维度包括：
 
-| Dimension | Weight |
+| 诊断维度 | 权重 |
 |---|---:|
-| Positioning clarity | 15% |
-| Evidence strength | 20% |
-| Seniority signal | 15% |
-| Career throughline | 15% |
-| Information density | 10% |
-| JD readiness | 10% |
-| Truthfulness & defensibility | 10% |
-| External readability | 5% |
+| 定位清晰度 | 15% |
+| 证据强度 | 20% |
+| 高阶感 | 15% |
+| 职业主线 | 15% |
+| 信息密度 | 10% |
+| 岗位匹配准备度 | 10% |
+| 真实性与可解释性 | 10% |
+| 外部可读性 | 5% |
 
 解释：
 
@@ -110,34 +109,34 @@ and incorrect experience weighting.
 
 - 虚构经验
 - 把协同写成负责
-- 把行业接触写成行业 ownership
+- 把行业接触写成行业负责
 - 添加未证实的语言、工具、市场经验
 - 为模仿 JD 重写 50% 以上
 
 ## 示例
 
-- `01-long-resume-to-one-page.md`：长简历如何压缩成一页纸
-- `02-short-stint-compression.md`：6 个月经历如何保留但降权
-- `03-collaboration-vs-industry-experience.md`：协同经验不等于行业经验
-- `04-resume-diagnostic-score.md`：先评分诊断，再决定怎么改
-- `05-jd-tailoring.md`：JD 证据映射与受控定制
-- `06-single-company-long-tenure.md`：单公司多年经历如何按能力维度拆分
+- `01-长简历压缩成一页纸.md`：长简历如何压缩成一页纸
+- `02-短经历保留但降权.md`：6 个月经历如何保留但降权
+- `03-协同经验不等于行业经验.md`：协同经验不等于行业经验
+- `04-先评分诊断再决定怎么改.md`：先评分诊断，再决定怎么改
+- `05-JD证据映射与受控定制.md`：JD 证据映射与受控定制
+- `06-单公司多年经历按能力维度拆分.md`：单公司多年经历如何按能力维度拆分
 
-## Repository Structure
+## 仓库结构
 
 ```text
-one-page-resume-editor-skill/
+一页纸简历修改器/
 ├── SKILL.md
 ├── README.md
 └── examples/
-    ├── 01-long-resume-to-one-page.md
-    ├── 02-short-stint-compression.md
-    ├── 03-collaboration-vs-industry-experience.md
-    ├── 04-resume-diagnostic-score.md
-    ├── 05-jd-tailoring.md
-    └── 06-single-company-long-tenure.md
+    ├── 01-长简历压缩成一页纸.md
+    ├── 02-短经历保留但降权.md
+    ├── 03-协同经验不等于行业经验.md
+    ├── 04-先评分诊断再决定怎么改.md
+    ├── 05-JD证据映射与受控定制.md
+    └── 06-单公司多年经历按能力维度拆分.md
 ```
 
-## Suggested License
+## 建议许可证
 
 MIT

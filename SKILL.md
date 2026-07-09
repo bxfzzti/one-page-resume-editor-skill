@@ -1,276 +1,283 @@
 ---
 name: one-page-resume-editor
-description: Diagnose, score, compress, restructure, and JD-tailor Chinese resumes for 5+ year experienced candidates. Use when a candidate needs resume problem detection, prioritized revision advice, a one-page master resume, role-fit analysis, evidence mapping, or controlled 10–15% JD customization. Especially useful for senior and mid-senior internet, platform, growth, operations, commercialization, e-commerce, B/C collaboration, and cross-functional roles.
+description: 适合 5 年以上中高阶求职者的中文简历诊断与改写技能。用于识别简历问题、给出修改建议、压缩一页纸主简历、分析岗位匹配度、建立证据映射，并在不虚构经历的前提下做 10%–15% 的 JD 轻定制。
 ---
 
 # 一页纸简历修改器
 
-## Mission
+## 使命
 
-Help 5+ year experienced candidates turn complex career histories into concise, truthful, defensible, role-aligned one-page resumes.
+帮助 5 年以上中高阶求职者，把复杂、分散、篇幅过长的职业经历，整理成一份定位清晰、证据充分、表达克制、经得起面试追问的一页纸简历。
 
-This is a Skill for Codex, Claude Code, and other agents. It provides resume diagnosis, revision rules, workflows, and examples. It is not a standalone agent.
+这是给 Codex、Claude Code 或其他智能体调用的简历修改技能。它提供的是诊断规则、改写流程和示例，不是一个独立运行的智能体。
 
-The skill supports four modes:
+技能支持四种模式：
 
-1. **DIAGNOSE** — score and audit before rewriting.
-2. **MASTER** — create a one-page master resume.
-3. **TAILOR** — customize only 10–15% against a target JD.
-4. **REVIEW** — audit an existing draft for overclaims, weak evidence, jargon, chronology, and weighting.
+1. **诊断模式**：先评分和审查，再决定是否需要重写。
+2. **主简历模式**：生成一份一页纸主简历。
+3. **定制模式**：针对目标 JD 做 10%–15% 的受控调整。
+4. **审查模式**：检查夸大表达、证据薄弱、黑话、时间线和经历权重问题。
 
-Default behavior:
+默认行为：
 
-- If the user gives only a resume: run DIAGNOSE first, then recommend whether rewriting is needed.
-- If the user explicitly asks for a final rewrite: diagnose internally, then produce the requested artifact.
-- If the user gives resume + JD: run DIAGNOSE + JD evidence mapping before TAILOR.
-- Never invent missing evidence.
+- 如果用户只提供简历：先运行诊断模式，再建议是否重写。
+- 如果用户明确要求最终改写：先在内部完成诊断，再输出用户需要的版本。
+- 如果用户提供简历和 JD：先做诊断与岗位证据映射，再进入定制模式。
+- 永远不要虚构缺失的经历、数据、身份或职责。
 
-## Inputs
+## 可使用的信息
 
-Use as many as available:
+尽量利用用户提供的全部信息：
 
-- full resume;
-- name, years of experience, education;
-- phone, email, base city;
-- employment dates, companies, titles;
-- team size;
-- responsibilities;
-- measurable results;
-- DAU/MAU/GMV/orders/users;
-- conversion, retention, repeat purchase, CTR, ROI;
-- cost reduction;
-- scope of ownership;
-- collaboration parties;
-- target JD.
+- 完整简历；
+- 姓名、工作年限、学历；
+- 手机、邮箱、常驻城市；
+- 任职时间、公司、岗位；
+- 团队规模；
+- 职责范围；
+- 可量化结果；
+- 日活、月活、交易额、订单量、用户规模；
+- 转化率、留存率、复购率、点击率、投入产出比；
+- 成本下降；
+- 负责范围；
+- 协作对象；
+- 目标 JD。
 
-## Truthfulness constraints
+## 真实性约束
 
-Never:
+禁止：
 
-- turn collaboration with a category/industry team into industry ownership;
-- turn participation into ownership;
-- attribute platform-wide results entirely to the candidate without evidence;
-- infer domain expertise from brand exposure;
-- fabricate metrics;
-- upgrade responsibility verbs to sound senior;
-- hide short stints by misclassifying chronology;
-- insert JD keywords unsupported by candidate evidence.
+- 把与行业或类目团队的协作写成行业负责；
+- 把参与写成负责；
+- 在没有证据时，把平台整体结果归因到候选人个人；
+- 因为接触过某个品牌，就推断候选人具备该领域专家经验；
+- 虚构数据；
+- 为了显得高阶而升级职责动词；
+- 通过错误归类隐藏短经历；
+- 塞入候选人经历无法支撑的 JD 关键词。
 
-Responsibility strength:
+职责动词强度从高到低：
 
-1. 主导 / led
-2. 负责 / owned
-3. 牵头 / spearheaded
-4. 推动 / drove
-5. 联动 / partnered
-6. 协同 / collaborated
-7. 参与 / participated
+1. 主导
+2. 负责
+3. 牵头
+4. 推动
+5. 联动
+6. 协同
+7. 参与
 
-Use the strongest verb that is still fully defensible.
+只能使用候选人真实贡献能够支撑的最高强度动词。
 
 ---
 
-# Mode 1 — DIAGNOSE
+# 模式一：诊断模式
 
-## Goal
+## 目标
 
-Before rewriting, determine whether the resume's main problem is:
+重写之前，先判断简历的主要问题属于哪一类：
 
-- positioning;
-- evidence;
-- structure;
-- information density;
-- chronology;
-- role alignment;
-- overclaim risk;
-- jargon;
-- weak metrics;
-- incorrect experience weighting.
+- 定位不清；
+- 证据不足；
+- 结构混乱；
+- 信息密度低；
+- 时间线处理不当；
+- 与目标岗位不匹配；
+- 表达夸大；
+- 黑话太多；
+- 数据薄弱；
+- 经历权重错误。
 
-## Scoring rubric
+## 评分标准
 
-Score each dimension from 0–10.
+每个维度按 0–10 分评分。
 
-### 1. Positioning clarity — 15%
+### 1. 定位清晰度 — 15%
 
-Can a recruiter understand within ~20 seconds:
+招聘方能否在约 20 秒内看懂：
 
-- candidate level;
-- functional identity;
-- strongest capability;
-- likely target roles?
+- 候选人层级；
+- 职能身份；
+- 最强能力；
+- 适合投递的岗位方向。
 
-### 2. Evidence strength — 20%
+### 2. 证据强度 — 20%
 
-Assess:
+重点看：
 
-- real metrics;
-- scale;
-- before/after;
-- business outcomes;
-- efficiency outcomes;
-- mechanism-result linkage.
+- 是否有真实数据；
+- 是否体现业务规模；
+- 是否有前后变化；
+- 是否有业务结果；
+- 是否有效率结果；
+- 动作、机制和结果之间是否连得上。
 
-### 3. Seniority signal — 15%
+### 3. 高阶感 — 15%
 
-Assess:
+重点看：
 
-- scope;
-- complexity;
-- ownership;
-- team leadership;
-- cross-functional influence;
-- 0→1 system building.
+- 负责范围；
+- 问题复杂度；
+- 责任边界；
+- 团队或项目带动；
+- 跨团队影响力；
+- 从 0 到 1 的机制建设。
 
-### 4. Career throughline — 15%
+### 4. 职业主线 — 15%
 
-Assess whether experiences form a coherent transferable narrative rather than unrelated jobs.
+判断多段经历是否能形成一条可迁移的职业叙事，而不是一组互不相关的工作记录。
 
-### 5. Information density — 10%
+### 5. 信息密度 — 10%
 
-Assess:
+重点看：
 
-- repeated responsibilities;
-- unnecessary line breaks;
-- low-value detail;
-- project流水账;
-- space allocation.
+- 职责是否重复；
+- 换行是否过多；
+- 低价值细节是否过多；
+- 是否像项目流水账；
+- 篇幅分配是否合理。
 
-### 6. JD readiness / market relevance — 10%
+### 6. 岗位匹配准备度 — 10%
 
-Without a JD, score general market readability and role legibility.
-With a JD, score evidence alignment to top requirements.
+没有 JD 时，评估市场可读性和岗位方向清晰度。
+有 JD 时，评估证据与岗位核心要求的匹配程度。
 
-### 7. Truthfulness & defensibility — 10%
+### 7. 真实性与可解释性 — 10%
 
-Assess:
+重点看：
 
-- ownership inflation;
-- industry-experience inflation;
-- unclear metric attribution;
-- unverifiable superlatives;
-- risky wording.
+- 是否夸大负责范围；
+- 是否把行业协作包装成行业负责；
+- 数据归因是否清楚；
+- 是否有无法验证的绝对化表述；
+- 是否存在面试追问风险。
 
-### 8. External readability — 5%
+### 8. 外部可读性 — 5%
 
-Assess:
+重点看：
 
-- internal jargon;
-- unexplained acronyms;
-- recruiter comprehension.
+- 是否有内部黑话；
+- 缩写是否未解释；
+- 非本公司招聘方能否看懂。
 
-## Weighted score
-
-Calculate:
+## 加权总分
 
 ```text
-Total =
-Positioning × 0.15 +
-Evidence × 0.20 +
-Seniority × 0.15 +
-Throughline × 0.15 +
-Density × 0.10 +
-JD Readiness × 0.10 +
-Defensibility × 0.10 +
-Readability × 0.05
+总分 =
+定位清晰度 × 0.15 +
+证据强度 × 0.20 +
+高阶感 × 0.15 +
+职业主线 × 0.15 +
+信息密度 × 0.10 +
+岗位匹配准备度 × 0.10 +
+真实性与可解释性 × 0.10 +
+外部可读性 × 0.05
 ```
 
-Convert to /100 by multiplying by 10.
+各项按 0–10 分计算，最后乘以 10，换算成百分制。
 
-## Score interpretation
+## 分数解释
 
-- 90–100: strong; tailor lightly.
-- 80–89: competitive; targeted optimization.
-- 70–79: usable but positioning/weighting issues.
-- 60–69: rewrite recommended.
-- below 60: structural rebuild recommended.
+- 90–100：简历很强，只需轻定制。
+- 80–89：有竞争力，适合做定向优化。
+- 70–79：可用，但定位或权重存在问题。
+- 60–69：建议重写。
+- 60 以下：建议结构性重建。
 
-## Diagnostic output
+## 诊断输出
 
-Return:
+输出以下内容：
 
-### A. Overall score
+### A. 总分
+
 `XX/100`
 
-### B. Dimension table
-Include score, weight, short diagnosis.
+### B. 维度评分表
 
-### C. Career throughline
-One sentence.
+包含分数、权重和简短诊断。
 
-### D. Top 3 strengths
-Evidence-backed only.
+### C. 职业主线
 
-### E. Top 3 problems
-Rank by impact.
+用一句话概括。
 
-### F. Experience tiering
-- Tier 1 expand
-- Tier 2 compress
-- Tier 3 early experience
+### D. 前 3 个优势
 
-### G. Overclaim / penetration risks
-Quote or paraphrase risky claims and explain why.
+只能写有证据支撑的优势。
 
-### H. Recommended action
-Choose one:
-- keep and lightly edit;
-- compress;
-- restructure;
-- rebuild;
-- tailor to JD.
+### E. 前 3 个问题
 
-Do not rewrite the full resume unless requested or required by the selected workflow.
+按影响大小排序。
+
+### F. 经历分层
+
+- 第一层：应该展开的核心经历
+- 第二层：应该保留但压缩的经历
+- 第三层：早期或低相关经历
+
+### G. 夸大与面试追问风险
+
+引用或转述有风险的表达，并说明风险原因。
+
+### H. 建议动作
+
+从以下动作中选择一个：
+
+- 保留并轻微修改；
+- 压缩；
+- 重组；
+- 重建；
+- 针对 JD 定制。
+
+除非用户明确要求，诊断模式不要直接重写完整简历。
 
 ---
 
-# Mode 2 — MASTER
+# 模式二：主简历模式
 
-## Goal
+## 目标
 
-Create a one-page or compact master resume.
+生成一份一页纸或紧凑版主简历。
 
-## Step 0: Determine experience structure type
+## 第 0 步：判断经历结构类型
 
-Before compressing or rewriting, classify the resume structure.
+压缩和改写之前，先判断简历属于哪种经历结构。
 
-### Type A — Multi-company resume
+### A 类：多公司型
 
-Use when the candidate has 2 or more substantial company experiences.
+适用于候选人有 2 家及以上主要公司经历的情况。
 
-Default flow:
+默认流程：
 
-- keep company chronology visible;
-- use each company as the primary container;
-- reduce each company to no more than 3 modules;
-- apply the normal tiering and compression rules below.
+- 保留清晰的公司时间线；
+- 以公司为主要容器组织经历；
+- 每家公司最多压缩成 3 个模块；
+- 继续使用下面的经历分层和压缩规则。
 
-### Type B — Single-company long-tenure resume
+### B 类：单公司长期任职型
 
-Use when the candidate has worked at the same company for 3+ years, especially when multiple projects, rotations, business lines, or role changes are all under one employer.
+适用于候选人在同一家公司工作 3 年以上，且该公司内部包含多个项目、轮岗、业务线或岗位变化。
 
-Branch flow:
+分支流程：
 
-1. Divide content by **capability dimension**, not by company paragraph.
-   Do not force all work into one company block. Use capability modules such as:
-   - 用户增长;
-   - 流量效率;
-   - 系统化建设;
-   - 需求管理;
-   - 商业化转化;
-   - B/C协同;
-   - 产品运营;
-   - 团队协作与项目推进.
+1. 按 **能力维度** 划分模块，不按公司段落机械堆叠。
+   不要把同一家公司里的所有事情强行压成一个大段。可以使用这些能力模块：
+   - 用户增长；
+   - 流量效率；
+   - 系统化建设；
+   - 需求管理；
+   - 商业化转化；
+   - B/C 协同；
+   - 产品运营；
+   - 团队协作与项目推进。
 
-2. Keep each capability dimension to **3–4 lines max**.
-   Do not merge unrelated dimensions just because they happened at the same company.
+2. 每个能力维度最多 **3–4 行**。
+   不要因为都发生在同一家公司，就把不同能力维度合并。
 
-3. Compress only repeated descriptions **within the same capability dimension**.
-   Do not cut across dimensions to save space. Cross-dimension deletion can erase real experience and make the candidate look narrower than they are.
+3. 只删除 **同一能力维度内部** 的重复描述。
+   不要为了节省篇幅跨维度删减。跨维度删除会抹掉真实经历，让候选人显得能力更窄。
 
-4. Preserve the employer and tenure once in the header or experience heading, then use capability modules underneath.
+4. 公司名称和任职时间只在标题处保留一次，下面用能力模块展开。
 
-Recommended format:
+推荐格式：
 
 ```text
 ### 2020.03—至今｜某平台｜运营/增长方向
@@ -281,72 +288,72 @@ Recommended format:
 **需求管理：** ...
 ```
 
-5. After compression, add an information preservation checklist.
+5. 压缩完成后，增加信息保全清单。
 
-Checklist:
+清单：
 
-- [ ] Does every project or experience in the source resume have a corresponding item in the compressed version?
-- [ ] If not, mark it as "deleted" and explain why.
-- [ ] Were deletions made only because the item was duplicated, low-value, unsupported, outdated, or irrelevant to the target role?
-- [ ] Did the rewrite preserve distinct capability dimensions instead of flattening them into one generic responsibility?
+- [ ] 原始简历中的每个项目或经历，是否都能在压缩版中找到对应表达？
+- [ ] 如果没有对应表达，是否标注为“已删除”并说明原因？
+- [ ] 删除原因是否仅限于重复、低价值、无证据、过旧或与目标岗位无关？
+- [ ] 改写后是否保留了不同能力维度，而不是压成一句泛泛的职责？
 
-## Step 1: Determine career throughline
+## 第 1 步：确定职业主线
 
-Ask internally:
+内部先问：
 
-> Across the candidate's 5+ years of experience, what recurring class of problems have they solved?
+> 候选人过去 5 年以上反复解决的是哪一类问题？
 
-Common throughlines:
+常见职业主线：
 
-- user growth;
-- platform operations;
-- commercialization;
-- supply-demand coordination;
-- membership growth;
-- private-domain growth;
-- merchant growth;
-- B/C collaboration;
-- traffic allocation and conversion.
+- 用户增长；
+- 平台运营；
+- 商业化；
+- 供需协同；
+- 会员增长；
+- 私域增长；
+- 商家增长；
+- B/C 协同；
+- 流量分配与转化。
 
-Do not force a multi-industry-expert narrative when transferable capability is more accurate.
+如果更准确的是可迁移能力，不要强行包装成多行业专家。
 
-## Step 2: Tier experiences
+## 第 2 步：划分经历权重
 
-For Type A multi-company resumes, tier by company and role relevance.
-For Type B single-company long-tenure resumes, tier by capability dimension and project evidence instead of company count.
+多公司型简历按公司和岗位相关度分层。
+单公司长期任职型简历按能力维度和项目证据分层，不按公司数量分层。
 
-### Tier 1 — expand
+### 第一层：重点展开
 
-Use when several are true:
+符合以下多项时，应该重点展开：
 
-- highly relevant;
-- strong brand;
-- hard results;
-- senior scope;
-- represents capability ceiling.
+- 与目标岗位高度相关；
+- 公司或平台有识别度；
+- 有硬结果；
+- 负责范围较大；
+- 能体现能力上限。
 
-Usually 2 modules.
+通常展开 2 个模块。
 
-### Tier 2 — retain but compress
+### 第二层：保留但压缩
 
-Use when short but strategically valuable:
+适用于短但有战略价值的经历：
 
-- chronology;
-- brand;
-- transition;
-- capability bridge.
+- 解释时间线；
+- 有品牌信号；
+- 解释职业转向；
+- 连接前后能力。
 
-Usually 1 paragraph.
+通常压缩成 1 段。
 
-### Tier 3 — early experience
+### 第三层：早期经历
 
-Older and less relevant.
+较早且相关度低的经历。
 
-Usually 1 line.
+通常压缩成 1 行。
 
-## Step 3: Compact header
+## 第 3 步：压缩头部信息
 
-Preferred:
+推荐格式：
 
 ```text
 # 姓名｜10年+互联网运营经验｜统招本科
@@ -357,295 +364,312 @@ Preferred:
 **协同能力：** ...
 ```
 
-Do not use a large standalone "个人优势" section unless space is abundant.
+除非篇幅充足，否则不要放一个很大的“个人优势”独立模块。
 
-## Step 4: Rewrite each experience
+## 第 4 步：改写每段经历
 
-Pattern:
+推荐结构：
 
 ```text
 **模块名：** 职责范围 + 核心动作 + 关键机制 + 结果。
 ```
 
-For Type A resumes, usually use 1–2 modules per company and never more than 3 modules per company.
+多公司型简历：每家公司通常 1–2 个模块，最多不超过 3 个模块。
 
-For Type B resumes, use 3–5 capability modules under the single long-tenure company, with each module capped at 3–4 lines. Keep modules distinct when they represent different capability dimensions.
+单公司长期任职型简历：在同一家公司下面使用 3–5 个能力模块，每个模块最多 3–4 行。只要能力维度不同，就要保留模块区分。
 
-## Step 5: B/C collaboration
+## 第 5 步：处理 B/C 协同
 
-Clarify:
+写清楚：
 
-- C-side demand;
-- B-side supply;
-- mechanism;
-- transaction/retention outcome.
+- C 端需求；
+- B 端供给；
+- 中间机制；
+- 交易、留存或效率结果。
 
-Template:
+模板：
 
 ```text
-**B/C协同增长：** 负责[业务]的B/C协同增长，推动[用户资产]向[交易/服务用户]转化；C端围绕[需求]设计[转化/权益/复购机制]，B端联动[商家/门店/服务商]推动[供给]建设，形成“需求—供给—交易—复购”闭环。
+**B/C 协同增长：** 负责[业务]的 B/C 协同增长，推动[用户资产]向[交易/服务用户]转化；C 端围绕[需求]设计[转化/权益/复购机制]，B 端联动[商家/门店/服务商]推动[供给]建设，形成“需求—供给—交易—复购”闭环。
 ```
 
-## Step 6: Short stints
+## 第 6 步：处理短经历
 
-Do not automatically delete a 6-month stint.
+不要机械删除 6 个月经历。
 
-Check:
+先判断：
 
-1. timeline gap?
-2. career bridge?
-3. brand signal?
-4. explains next role?
+1. 删除后是否产生时间断层？
+2. 是否解释职业转向？
+3. 是否有品牌信号？
+4. 是否解释下一段岗位？
 
-If mostly yes: retain in main chronology, compress to one paragraph.
+如果大多为“是”，保留在主时间线里，压缩成一段。
 
-Never move a recent short stint into "early experience".
+不要把近期短经历错误放入“早期经历”。
 
-## Step 7: Internships for 5+ year candidates
+## 第 7 步：处理 5 年以上候选人的实习经历
 
-Default: do not expand.
+默认不展开。
 
-Retain only for strong brand, unusual outcome, chronology, or relevance.
-If retained: one line.
+只有在强品牌、特殊成果、时间线必要或与目标岗位高度相关时才保留。
+如保留，压缩成 1 行。
 
-## Step 8: Result priority
+## 第 8 步：结果优先级
 
-1. business outcome;
-2. efficiency outcome;
-3. user outcome;
-4. mechanism built;
-5. activity performed.
+表达优先级：
 
-When metrics are unavailable, use truthful outcomes:
+1. 业务结果；
+2. 效率结果；
+3. 用户结果；
+4. 建立的机制；
+5. 执行的动作。
 
-- 跑通路径
-- 完成闭环验证
-- 建立机制
-- 沉淀可复制模式
-- 支撑规模化放量
+没有数据时，使用真实但克制的结果表达：
 
-## Step 9: Translate jargon
+- 跑通路径；
+- 完成闭环验证；
+- 建立机制；
+- 沉淀可复制模式；
+- 支撑规模化放量。
 
-Ask:
+## 第 9 步：翻译内部黑话
 
-> Can an external recruiter understand this in three seconds?
+内部先问：
 
-Translate or explain internal terms. Never guess the meaning of ambiguous jargon.
+> 外部招聘方能否在 3 秒内看懂这句话？
 
-## Step 10: Compress vertically
+把内部术语翻译成外部可理解的表达。遇到含义不明的黑话，不要猜。
 
-Order:
+## 第 10 步：纵向压缩
 
-1. remove unnecessary line breaks;
-2. delete repeated responsibilities;
-3. reduce each company to 1–2 modules;
-4. compress short strategic experiences;
-5. compress early experiences;
-6. remove low-value internship detail;
-7. replace large advantages section with 3 summary lines;
-8. only then adjust font and margins.
+压缩顺序：
 
-For Type B single-company long-tenure resumes:
+1. 删除不必要换行；
+2. 删除重复职责；
+3. 将每家公司压缩到 1–2 个模块；
+4. 压缩短但有战略价值的经历；
+5. 压缩早期经历；
+6. 删除低价值实习细节；
+7. 用 3 行摘要替代过大的个人优势模块；
+8. 最后才考虑字体和页边距。
 
-1. first group raw projects by capability dimension;
-2. remove repetition only inside each capability dimension;
-3. cap each dimension at 3–4 lines;
-4. keep enough distinct dimensions to show breadth and seniority;
-5. add the information preservation checklist before finalizing.
+单公司长期任职型简历的压缩顺序：
+
+1. 先按能力维度整理原始项目；
+2. 只在同一能力维度内部删除重复；
+3. 每个能力维度控制在 3–4 行；
+4. 保留足够多的能力维度，以体现宽度和高阶感；
+5. 最终输出前补充信息保全清单。
 
 ---
 
-# Mode 3 — TAILOR
+# 模式三：定制模式
 
-## Goal
+## 目标
 
-Customize a master resume against a target JD without rewriting the candidate into a different person.
+针对目标 JD 调整主简历，但不要把候选人改写成另一个人。
 
-Default modification budget: **10–15% of the master resume**.
+默认改动幅度：主简历的 **10%–15%**。
 
-This is a controlled adaptation, not a total rewrite.
+这是受控适配，不是整份重写。
 
-## Step 1: Parse the JD
+## 第 1 步：解析 JD
 
-Extract:
+提取：
 
-### A. Top 3 capability requirements
-Rank by:
-- repetition;
-- placement;
-- business criticality;
-- seniority signal.
+### A. 最重要的 3 个能力要求
 
-### B. Supporting requirements
-Examples:
-- analytics;
-- English;
-- international exposure;
-- travel;
-- team leadership.
+按以下因素排序：
 
-### C. Domain context
-Examples:
-- e-commerce;
-- local services;
-- mobility;
-- fintech;
-- SaaS.
+- 出现频次；
+- 所在位置；
+- 对业务目标的重要性；
+- 是否体现岗位层级。
 
-Do not treat preferred qualifications as mandatory unless the JD does.
+### B. 辅助要求
 
-## Step 2: Build evidence map
+例如：
 
-Create a table:
+- 数据分析；
+- 英语；
+- 国际化经验；
+- 出差；
+- 团队管理。
 
-| JD requirement | Candidate evidence | Strength | Gap/Risk |
+### C. 业务场景
+
+例如：
+
+- 电商；
+- 本地生活；
+- 出行；
+- 金融科技；
+- 企业服务。
+
+不要把“加分项”当成硬性要求，除非 JD 明确这样写。
+
+## 第 2 步：建立证据映射
+
+创建表格：
+
+| JD 要求 | 候选人证据 | 证据强度 | 差距或风险 |
 |---|---|---:|---|
-| Requirement 1 | Exact resume evidence | Strong/Medium/Weak | Notes |
+| 要求 1 | 简历中的具体证据 | 强 / 中 / 弱 / 无 | 说明 |
 
-Evidence strength:
+证据强度：
 
-- **Strong:** direct ownership + result.
-- **Medium:** adjacent ownership or strong collaboration.
-- **Weak:** exposure only.
-- **None:** no evidence.
+- **强：** 直接负责，并有结果。
+- **中：** 相邻负责，或深度协作。
+- **弱：** 只是接触或参与。
+- **无：** 没有证据。
 
-## Step 3: Calculate fit score
+## 第 3 步：计算匹配分
 
-Score 0–100 using:
+按 0–100 分计算：
 
-- Top 3 capability requirements: 60 points total
-- Supporting requirements: 20 points
-- Seniority/scope fit: 10 points
-- Domain/context transferability: 10 points
+- 最重要的 3 个能力要求：共 60 分
+- 辅助要求：20 分
+- 层级和负责范围匹配度：10 分
+- 业务场景可迁移性：10 分
 
-Rules:
+计分规则：
 
-- Strong evidence: 100% of allocated points
-- Medium: 65%
-- Weak: 30%
-- None: 0%
+- 强证据：拿到该项全部分数
+- 中证据：拿到 65%
+- 弱证据：拿到 30%
+- 无证据：0 分
 
-Apply a risk note, not a hidden penalty, for:
-- language requirement uncertainty;
-- relocation/travel uncertainty;
-- missing international background;
-- unclear people management.
+以下情况只写风险提示，不做隐藏扣分：
 
-## Step 4: Decide tailoring actions
+- 语言能力不确定；
+- 异地或出差意愿不确定；
+- 国际化背景缺失；
+- 团队管理经验不清楚。
 
-Allowed:
+## 第 4 步：决定定制动作
 
-- reorder summary lines;
-- reorder modules within a company;
-- foreground relevant evidence;
-- replace generic wording with JD-aligned wording when supported;
-- compress irrelevant modules;
-- add missing but already evidenced keywords;
-- adjust role headline if truthful.
+允许：
 
-Not allowed:
+- 调整摘要顺序；
+- 调整公司内部模块顺序；
+- 前置相关证据；
+- 在事实支持时，把泛化表达替换成 JD 能理解的表达；
+- 压缩无关模块；
+- 增加已有证据能支撑的关键词；
+- 在真实前提下调整岗位标题。
 
-- invent experience;
-- claim industry ownership from collaboration;
-- add tools, languages, markets, or leadership not evidenced;
-- rewrite 50%+ just to mimic JD.
+禁止：
 
-## Step 5: Keep a change budget
+- 虚构经历；
+- 把协作写成行业负责；
+- 添加未证实的工具、语言、市场或管理经验；
+- 为了模仿 JD 重写 50% 以上。
 
-Target:
+## 第 5 步：控制改动预算
 
-- 0–5%: near-perfect fit
-- 10–15%: normal tailoring
-- 15–25%: only when career evidence is strong but framing differs
-- above 25%: warn that fit may be weak or master resume positioning is wrong
+参考：
 
-## Step 6: Tailored output
+- 0–5%：几乎完全匹配
+- 10–15%：正常轻定制
+- 15–25%：候选人证据强，但表达方向不同
+- 25% 以上：提醒用户，可能是岗位匹配偏弱，或主简历定位有问题
 
-Return:
+## 第 6 步：定制输出
 
-### A. Fit score
+输出：
+
+### A. 匹配分
+
 `XX/100`
 
-### B. Top 3 JD requirements
-Brief.
+### B. 最重要的 3 个 JD 要求
 
-### C. Evidence map
-Concise table.
+简要说明。
 
-### D. Gaps and risks
-No sugarcoating.
+### C. 证据映射
 
-### E. Tailoring strategy
-What will change and why.
+用简洁表格呈现。
 
-### F. Final tailored resume
-Only if requested.
+### D. 差距和风险
 
-### G. Change log
-List major changes, especially if wording strength changed.
+不要粉饰。
 
----
+### E. 定制策略
 
-# Mode 4 — REVIEW
+说明会改什么，以及为什么改。
 
-Audit an existing resume for:
+### F. 最终定制简历
 
-- positioning;
-- strongest evidence;
-- weak/redundant content;
-- chronology;
-- overclaim risk;
-- jargon;
-- incorrect weighting;
-- missing contact information;
-- unsupported JD keywords.
+只有在用户需要时输出。
 
-Return prioritized fixes.
+### G. 修改记录
+
+列出主要修改，尤其是表达强度发生变化的地方。
 
 ---
 
-# Interview penetration test
+# 模式四：审查模式
 
-For every major statement:
+审查现有简历中的以下问题：
 
-- What exactly did you own?
-- How was the metric calculated?
-- What was your personal contribution?
-- What did collaborators own?
-- Why is this "industry experience"?
-- What mechanism caused the result?
-- Can the candidate explain baseline, timeframe, and denominator?
+- 定位；
+- 最强证据；
+- 薄弱或重复内容；
+- 时间线；
+- 夸大风险；
+- 黑话；
+- 经历权重错误；
+- 联系方式缺失；
+- JD 关键词缺少事实支撑。
 
-If not defensible, downgrade or rewrite.
+按优先级输出修改建议。
 
 ---
 
-# Final checklist
+# 面试追问测试
 
-- [ ] Positioning clear in ~20 seconds.
-- [ ] Reachable contact information included.
-- [ ] Summary about 3 lines.
-- [ ] Recent high-value experience has highest weight.
-- [ ] Each company usually has 1–2 modules.
-- [ ] Short recent stints not mislabeled as early experience.
-- [ ] Internships not over-expanded for a 5+ year candidate.
-- [ ] Real metrics used where available.
-- [ ] Collaboration not mislabeled as industry ownership.
-- [ ] Participation not mislabeled as ownership.
-- [ ] No fabricated metrics.
-- [ ] Jargon externally understandable.
-- [ ] Unnecessary line breaks removed.
-- [ ] Claims survive follow-up.
-- [ ] Metric definitions explainable.
-- [ ] Career throughline aligns with target role.
-- [ ] JD tailoring stays within controlled change budget unless warned.
+对每个重要表述，都要追问：
 
-## Success criterion
+- 你具体负责了什么？
+- 数据是怎么计算的？
+- 你的个人贡献是什么？
+- 协作者负责了什么？
+- 为什么这能算行业经验，还是只能算行业协作？
+- 是什么机制带来了结果？
+- 候选人能否解释基线、周期和分母？
 
-A recruiter should conclude:
+如果回答不清，就降级或重写该表达。
 
-> This candidate has handled sufficiently complex work.
+---
 
-> This candidate has produced verifiable outcomes.
+# 最终检查清单
 
-> This candidate's capabilities can transfer to the role being hired.
+- [ ] 约 20 秒内能看清候选人定位。
+- [ ] 联系方式完整。
+- [ ] 摘要控制在约 3 行。
+- [ ] 近期高价值经历获得最高篇幅权重。
+- [ ] 多公司型简历中，每家公司通常 1–2 个模块。
+- [ ] 单公司长期任职型简历按能力维度拆分。
+- [ ] 近期短经历没有被错误归入早期经历。
+- [ ] 5 年以上候选人的实习经历没有过度展开。
+- [ ] 尽量使用真实数据。
+- [ ] 没有把协作写成行业负责。
+- [ ] 没有把参与写成负责。
+- [ ] 没有虚构数据。
+- [ ] 黑话已转成外部可读表达。
+- [ ] 不必要换行已删除。
+- [ ] 关键表述经得起追问。
+- [ ] 数据口径能够解释。
+- [ ] 职业主线与目标岗位一致。
+- [ ] JD 定制控制在合理改动幅度内，超出时已提醒风险。
+
+## 成功标准
+
+招聘方读完后，应该能得出三个判断：
+
+> 这个人处理过足够复杂的工作。
+
+> 这个人拿到过可验证的结果。
+
+> 这个人的能力可以迁移到当前岗位。
