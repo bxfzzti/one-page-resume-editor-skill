@@ -41,7 +41,7 @@
 - Create: `web/src/lib/service-catalog.ts`
 - Create: `web/.env.example`
 - Create: `web/docker-compose.yml`
-- Create: `web/vitest.config.ts`
+- Create: `web/vitest.config.mts`
 - Create: `web/src/test/setup.ts`
 - Modify: `.gitignore`
 
@@ -49,7 +49,7 @@
 - Produces: `SERVICE_CATALOG`、`ServiceKind`、Next.js 应用骨架、本地 PostgreSQL。
 - Consumes: `docs/superpowers/specs/2026-08-30-resume-skill-web-product-design.md`。
 
-- [ ] **Step 1: 初始化 Next.js 工程**
+- [x] **Step 1: 初始化 Next.js 工程**
 
 Run:
 
@@ -62,7 +62,7 @@ npm install -D drizzle-kit vitest @testing-library/react @testing-library/jest-d
 
 Expected: `web/package.json` 和 `web/package-lock.json` 存在，安装退出码为 0。
 
-- [ ] **Step 2: 添加开发脚本和本地数据库**
+- [x] **Step 2: 添加开发脚本和本地数据库**
 
 `web/docker-compose.yml`：
 
@@ -99,7 +99,7 @@ volumes:
 }
 ```
 
-- [ ] **Step 3: 定义环境变量样例**
+- [x] **Step 3: 定义环境变量样例**
 
 `web/.env.example`：
 
@@ -117,7 +117,7 @@ LOCAL_STORAGE_PATH=.data/storage
 APP_URL=http://127.0.0.1:3000
 ```
 
-- [ ] **Step 4: 定义服务目录**
+- [x] **Step 4: 定义服务目录**
 
 `web/src/lib/service-catalog.ts`：
 
@@ -141,7 +141,7 @@ export const PRIMARY_SERVICE_KINDS = [
 ] as const satisfies readonly ServiceKind[];
 ```
 
-- [ ] **Step 5: 建立真实第一屏**
+- [x] **Step 5: 建立真实第一屏**
 
 `web/src/app/page.tsx` 必须直接渲染四类任务按钮、注册赠送 50 积分说明和“上传简历”主操作；不得出现营销 hero、用户评价或虚构招聘结果。
 
@@ -171,7 +171,7 @@ export default function HomePage() {
 }
 ```
 
-- [ ] **Step 6: 配置忽略规则**
+- [x] **Step 6: 配置忽略规则**
 
 在根 `.gitignore` 增加：
 
@@ -185,7 +185,7 @@ web/test-results/
 .superpowers/
 ```
 
-- [ ] **Step 7: 运行骨架验证**
+- [x] **Step 7: 运行骨架验证**
 
 Run:
 
@@ -198,7 +198,7 @@ npm run build
 
 Expected: 三个命令退出码均为 0。
 
-- [ ] **Step 8: 提交**
+- [x] **Step 8: 提交**
 
 ```bash
 git add .gitignore web
@@ -216,13 +216,15 @@ git commit -m "Scaffold resume web app"
 - Create: `web/src/db/schema/contribution.ts`
 - Create: `web/src/db/schema/index.ts`
 - Create: `web/src/db/schema/schema.test.ts`
-- Create: `web/drizzle/0000_initial.sql`
+- Create: `web/drizzle/0000_rich_quasimodo.sql`
+- Create: `web/drizzle/meta/0000_snapshot.json`
+- Create: `web/drizzle/meta/_journal.json`
 
 **Interfaces:**
 - Produces: 数据表和 Drizzle 类型；`db` 客户端。
 - Consumes: `ServiceKind`。
 
-- [ ] **Step 1: 写 schema 约束测试**
+- [x] **Step 1: 写 schema 约束测试**
 
 `web/src/db/schema/schema.test.ts`：
 
@@ -240,13 +242,13 @@ describe("database schema", () => {
 });
 ```
 
-- [ ] **Step 2: 运行测试并确认失败**
+- [x] **Step 2: 运行测试并确认失败**
 
 Run: `cd web && npm test -- src/db/schema/schema.test.ts`
 
 Expected: FAIL，提示 `./index` 不存在。
 
-- [ ] **Step 3: 实现 schema**
+- [x] **Step 3: 实现 schema**
 
 表必须包含以下关键字段：
 
@@ -276,7 +278,7 @@ auditEvents: id, userId, action, targetType, targetId, metadata, createdAt
 
 所有用户资源表使用 UUID 主键；`pointLedger.idempotencyKey`、`serviceRuns.idempotencyKey` 和 `paymentOrders.idempotencyKey` 必须唯一。删除账户使用 `deletedAt` 软删除用户并清理工作数据。
 
-- [ ] **Step 4: 生成迁移并执行**
+- [x] **Step 4: 生成迁移并执行**
 
 Run:
 
@@ -287,15 +289,15 @@ npm run db:generate
 npm run db:migrate
 ```
 
-Expected: 迁移成功，生成 `web/drizzle/0000_initial.sql`。
+Expected: 迁移成功，生成 `web/drizzle/0000_rich_quasimodo.sql` 和 Drizzle metadata。
 
-- [ ] **Step 5: 运行测试**
+- [x] **Step 5: 运行测试**
 
 Run: `cd web && npm test -- src/db/schema/schema.test.ts`
 
 Expected: PASS。
 
-- [ ] **Step 6: 提交**
+- [x] **Step 6: 提交**
 
 ```bash
 git add web/drizzle.config.ts web/src/db web/drizzle
