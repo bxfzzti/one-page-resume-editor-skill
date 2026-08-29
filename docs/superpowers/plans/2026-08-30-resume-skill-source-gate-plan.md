@@ -179,7 +179,7 @@ diff -qr . /Users/xxqq/.agents/skills/one-page-resume-editor --exclude=.git --ex
 
 Expected: 无输出。
 
-- [ ] **Step 4: 提交实现**
+- [x] **Step 4: 提交实现**
 
 Run:
 
@@ -191,7 +191,7 @@ git commit -m "Add resume skill regression source gate"
 
 Expected: 私有路径检查无匹配，提交成功。
 
-- [ ] **Step 5: 推送并确认远端**
+- [x] **Step 5: 推送并确认远端**
 
 Run:
 
