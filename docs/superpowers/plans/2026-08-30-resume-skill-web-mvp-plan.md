@@ -390,6 +390,7 @@ git commit -m "Implement immutable point ledger"
 
 **Files:**
 - Create: `web/src/server/auth/otp.ts`
+- Create: `web/src/server/auth/email-sender.ts`
 - Create: `web/src/server/auth/session.ts`
 - Create: `web/src/server/auth/auth.test.ts`
 - Create: `web/src/app/api/auth/request-code/route.ts`
@@ -401,7 +402,7 @@ git commit -m "Implement immutable point ledger"
 - Produces: `requestEmailCode(email)`、`verifyEmailCode(email, code)`、`getCurrentUser()`。
 - Consumes: `PointLedgerService.grantWelcome()`。
 
-- [ ] **Step 1: 写登录失败测试**
+- [x] **Step 1: 写登录失败测试**
 
 ```ts
 it("creates a user and grants 50 points after first verification", async () => {
@@ -424,13 +425,13 @@ it("does not grant another welcome reward on later logins", async () => {
 });
 ```
 
-- [ ] **Step 2: 运行测试并确认失败**
+- [x] **Step 2: 运行测试并确认失败**
 
 Run: `cd web && npm test -- src/server/auth/auth.test.ts`
 
 Expected: FAIL，提示 auth 模块不存在。
 
-- [ ] **Step 3: 实现 OTP 与会话**
+- [x] **Step 3: 实现 OTP 与会话**
 
 - OTP 为 6 位数字，数据库只保存 SHA-256 hash，有效期 10 分钟，成功后立即消费。
 - 同一邮箱 60 秒内不可重复发送；15 分钟最多请求 5 次。
@@ -438,11 +439,11 @@ Expected: FAIL，提示 auth 模块不存在。
 - 会话使用 32 字节随机 token，数据库保存 token hash，浏览器保存 `httpOnly`、`sameSite=lax`、生产环境 `secure` cookie。
 - 首次验证邮箱时创建用户并在同一事务中调用 `grantWelcome`。
 
-- [ ] **Step 4: 实现登录弹窗**
+- [x] **Step 4: 实现登录弹窗**
 
 弹窗只包含邮箱、验证码、发送按钮和登录按钮。用户首次点击收费服务时打开；不得在上传前阻止游客解析文件。
 
-- [ ] **Step 5: 运行测试**
+- [x] **Step 5: 运行测试**
 
 Run:
 
@@ -454,7 +455,7 @@ npm run typecheck
 
 Expected: PASS，类型检查无错误。
 
-- [ ] **Step 6: 提交**
+- [x] **Step 6: 提交**
 
 ```bash
 git add web/src/server/auth web/src/app/api/auth web/src/components/auth-dialog.tsx

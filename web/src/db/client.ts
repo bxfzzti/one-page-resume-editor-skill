@@ -1,4 +1,9 @@
+import type { ExtractTablesWithRelations } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
+import type {
+  PostgresJsDatabase,
+  PostgresJsTransaction,
+} from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema";
 
@@ -17,3 +22,9 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export const db = drizzle(sql, { schema });
+
+export type ResumeDb = PostgresJsDatabase<typeof schema>;
+export type ResumeTransaction = PostgresJsTransaction<
+  typeof schema,
+  ExtractTablesWithRelations<typeof schema>
+>;

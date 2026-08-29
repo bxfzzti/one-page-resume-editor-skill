@@ -1,10 +1,7 @@
 import { and, eq, inArray, sql as drizzleSql } from "drizzle-orm";
-import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
-import { db } from "@/db/client";
-import * as schema from "@/db/schema";
+import { db, type ResumeDb, type ResumeTransaction } from "@/db/client";
 import { pointLedger, users } from "@/db/schema";
 
-type ResumeDb = PostgresJsDatabase<typeof schema>;
 type LedgerRow = typeof pointLedger.$inferSelect;
 type PointBucket = LedgerRow["bucket"];
 
@@ -85,28 +82,35 @@ export class PointLedgerService {
 
   async grantWelcome(userId: string): Promise<void> {
     await this.database.transaction(async (tx) => {
-      await tx.execute(
-        drizzleSql`select pg_advisory_xact_lock(hashtext(${userId}))`,
-      );
-      const inserted = await tx
-        .insert(pointLedger)
-        .values({
-          userId,
-          entryType: "welcome_grant",
-          bucket: "gift",
-          amount: 50,
-          idempotencyKey: `welcome:${userId}`,
-        })
-        .onConflictDoNothing({ target: pointLedger.idempotencyKey })
-        .returning({ id: pointLedger.id });
-
-      if (inserted.length > 0) {
-        await tx
-          .update(users)
-          .set({ welcomePointsGrantedAt: new Date() })
-          .where(eq(users.id, userId));
-      }
+      await this.grantWelcomeInTransaction(tx, userId);
     });
+  }
+
+  async grantWelcomeInTransaction(
+    tx: ResumeTransaction,
+    userId: string,
+  ): Promise<void> {
+    await tx.execute(
+      drizzleSql`select pg_advisory_xact_lock(hashtext(${userId}))`,
+    );
+    const inserted = await tx
+      .insert(pointLedger)
+      .values({
+        userId,
+        entryType: "welcome_grant",
+        bucket: "gift",
+        amount: 50,
+        idempotencyKey: `welcome:${userId}`,
+      })
+      .onConflictDoNothing({ target: pointLedger.idempotencyKey })
+      .returning({ id: pointLedger.id });
+
+    if (inserted.length > 0) {
+      await tx
+        .update(users)
+        .set({ welcomePointsGrantedAt: new Date() })
+        .where(eq(users.id, userId));
+    }
   }
 
   async grantContributionReward(input: {
