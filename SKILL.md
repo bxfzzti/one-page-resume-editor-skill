@@ -53,6 +53,8 @@ description: 面向 5 年以上中高阶求职者的中文简历整理与岗位�
 - 检查简历和准备面试：读取 [references/interview-and-review.md](references/interview-and-review.md)。
 - 用户明确要求 Word/PDF：在内容完成并确认后读取 [references/document-output.md](references/document-output.md)。
 
+角色参考只在目标岗位或用户材料明确涉及产品、运营、增长、商业化、平台或电商时读取。非深度支持岗位只使用通用规则，不自动创造岗位专业指标；新增角色参考必须放入 `references/roles/` 并在入口写明触发条件。
+
 ## 默认响应顺序
 
 先说明当前识别到的任务和材料完整度，再执行对应流程。输出时优先给结论，再给证据、修改稿和风险；不要用技术术语要求用户理解内部流程。
