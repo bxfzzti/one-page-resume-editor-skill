@@ -312,10 +312,10 @@ git commit -m "Add resume web database schema"
 - Create: `web/src/server/points/service-pricing.ts`
 
 **Interfaces:**
-- Produces: `PointLedgerService.getBalance()`、`grantWelcome()`、`reserve()`、`settle()`、`release()`、`grantContributionReward()`。
+- Produces: `PointLedgerService.getBalance()`、`grantWelcome()`、`grantPurchase()`、`reserve()`、`settle()`、`release()`、`grantContributionReward()`。
 - Consumes: `SERVICE_CATALOG`、`pointLedger`、`serviceRuns`。
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 测试必须覆盖：
 
@@ -339,13 +339,13 @@ it("releases reserved points after failure", async () => {
 });
 ```
 
-- [ ] **Step 2: 运行测试并确认失败**
+- [x] **Step 2: 运行测试并确认失败**
 
 Run: `cd web && npm test -- src/server/points/point-ledger.test.ts`
 
 Expected: FAIL，提示 `PointLedgerService` 不存在。
 
-- [ ] **Step 3: 实现事务账本**
+- [x] **Step 3: 实现事务账本**
 
 `PointLedgerService` 规则：
 
@@ -368,18 +368,18 @@ export interface LedgerMutationInput {
 
 - `grantWelcome` 写入 `welcome_grant +50`，唯一幂等键为 `welcome:<userId>`。
 - `reserve` 在同一数据库事务中锁定用户流水、计算余额、写入 `reserve -points` 与 `reserved +points`；余额不足抛出 `INSUFFICIENT_POINTS`。
-- `settle` 把冻结积分写成 `settle -points`，不再次减少可用余额。
+- `settle` 写入正数 `settle points` 以减少冻结额，不再次减少可用余额。
 - `release` 写入 `release +points` 并清空该任务冻结额。
 - `getBalance` 通过流水聚合计算，不读取可变余额字段。
 - 赠送积分与购买积分分别记录 `bucket`，消耗时先赠送后购买。
 
-- [ ] **Step 4: 运行测试**
+- [x] **Step 4: 运行测试**
 
 Run: `cd web && npm test -- src/server/points/point-ledger.test.ts`
 
 Expected: PASS，重复调用不产生重复流水。
 
-- [ ] **Step 5: 提交**
+- [x] **Step 5: 提交**
 
 ```bash
 git add web/src/server/points
