@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: resume
+      POSTGRES_PASSWORD: resume
+      POSTGRES_DB: resume_skill
+    ports:
+      - "54329:5432"
+    volumes:
+      - resume_skill_pg:/var/lib/postgresql/data
+
+volumes:
+  resume_skill_pg:

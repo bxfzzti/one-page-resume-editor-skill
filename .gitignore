@@ -1,2 +1,11 @@
 tests/regression/local-private/
 tests/regression/results/private-*
+web/.env
+web/.next/
+web/node_modules/
+web/.data/
+web/.playwright-cli/
+web/playwright-report/
+web/test-results/
+web/*.tsbuildinfo
+.superpowers/
