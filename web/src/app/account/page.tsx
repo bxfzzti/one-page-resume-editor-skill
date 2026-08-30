@@ -12,7 +12,7 @@ export default async function AccountPage() {
         <div className="mt-6 space-y-3">
           <section className="rounded-lg border border-neutral-200 bg-white p-5">
             <h2 className="font-semibold">登录账户</h2>
-            <p className="mt-2 text-sm text-neutral-600">{user ? user.email : "尚未登录"}</p>
+            <p className="mt-2 text-sm text-neutral-600">{user ? user.phone ?? user.email ?? "已登录" : "尚未登录"}</p>
           </section>
           <section className="rounded-lg border border-neutral-200 bg-white p-5">
             <h2 className="font-semibold">数据贡献</h2>

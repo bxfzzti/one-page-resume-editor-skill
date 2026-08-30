@@ -1,3 +1,7 @@
+import { loadEnvConfig } from "@next/env";
+
+loadEnvConfig(process.cwd());
+
 const required = ["DATABASE_URL", "SESSION_SECRET", "MODEL_PROVIDER"] as const;
 const missing = required.filter((name) => !process.env[name]);
 const errors: string[] = missing.map((name) => `${name} 未配置`);

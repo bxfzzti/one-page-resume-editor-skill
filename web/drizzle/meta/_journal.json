@@ -8,6 +8,27 @@
       "when": 1788038277889,
       "tag": "0000_rich_quasimodo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788102510338,
+      "tag": "0001_nervous_inhumans",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788102695521,
+      "tag": "0002_petite_tyrannus",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1788102910394,
+      "tag": "0003_ordinary_inhumans",
+      "breakpoints": true
     }
   ]
 }

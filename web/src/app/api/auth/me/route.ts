@@ -8,7 +8,7 @@ export async function GET() {
   const balance = await new PointLedgerService().getBalance(user.id);
   return NextResponse.json({
     authenticated: true,
-    user: { id: user.id, email: user.email },
+    user: { id: user.id, email: user.email, phone: user.phone },
     balance,
   });
 }

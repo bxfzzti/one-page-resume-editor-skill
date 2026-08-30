@@ -386,7 +386,7 @@ git add web/src/server/points
 git commit -m "Implement immutable point ledger"
 ```
 
-### Task 4: 邮箱验证码登录与注册赠送
+### Task 4: 手机号验证码登录与注册赠送
 
 **Files:**
 - Create: `web/src/server/auth/otp.ts`
@@ -400,7 +400,7 @@ git commit -m "Implement immutable point ledger"
 - Create: `web/src/components/auth-dialog.tsx`
 
 **Interfaces:**
-- Produces: `requestEmailCode(email)`、`verifyEmailCode(email, code)`、`getCurrentUser()`。
+- Produces: `requestPhoneCode(phone)`、`verifyPhoneCode(phone, code)`、`getCurrentUser()`；邮箱验证码接口作为后备能力保留。
 - Consumes: `PointLedgerService.grantWelcome()`。
 
 - [x] **Step 1: 写登录失败测试**
@@ -435,14 +435,14 @@ Expected: FAIL，提示 auth 模块不存在。
 - [x] **Step 3: 实现 OTP 与会话**
 
 - OTP 为 6 位数字，数据库只保存 SHA-256 hash，有效期 10 分钟，成功后立即消费。
-- 同一邮箱 60 秒内不可重复发送；15 分钟最多请求 5 次。
+- 同一手机号 60 秒内不可重复发送；15 分钟最多请求 5 次。
 - `SMTP_URL` 为空时只允许 `NODE_ENV !== "production"`，并在服务器日志输出验证码。
 - 会话使用 32 字节随机 token，数据库保存 token hash，浏览器保存 `httpOnly`、`sameSite=lax`、生产环境 `secure` cookie。
-- 首次验证邮箱时创建用户并在同一事务中调用 `grantWelcome`。
+- 首次验证手机号时创建用户并在同一事务中调用 `grantWelcome`。
 
 - [x] **Step 4: 实现登录弹窗**
 
-弹窗只包含邮箱、验证码、发送按钮和登录按钮。用户首次点击收费服务时打开；不得在上传前阻止游客解析文件。
+弹窗只包含手机号、验证码、发送按钮和登录按钮。开发环境使用控制台短信适配器，生产环境必须配置真实短信供应商；用户首次点击收费服务时打开，不得在上传前阻止游客解析文件。
 
 - [x] **Step 5: 运行测试**
 
@@ -925,7 +925,7 @@ git commit -m "Add consent and privacy controls"
 
 - [x] **Step 2: 实现首次流程 E2E**
 
-测试：游客选择通用诊断 → 上传虚拟简历 → 确认材料 → 邮箱登录 → 获得 50 积分 → 明确看到消耗 5 积分 → 成功生成 → 余额 45 → 导出 Word/PDF。
+测试：游客选择通用诊断 → 上传虚拟简历 → 确认材料 → 手机号登录 → 获得 50 积分 → 明确看到消耗 5 积分 → 成功生成 → 余额 45 → 导出 Word/PDF。
 
 - [ ] **Step 3: 实现幂等与失败退款 E2E**
 

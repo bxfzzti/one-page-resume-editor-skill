@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { KeyRound, Loader2, Mail, X } from "lucide-react";
+import { KeyRound, Loader2, Smartphone, X } from "lucide-react";
 
 type AuthDialogProps = {
   open: boolean;
   onClose: () => void;
   onAuthenticated: (input: {
-    user: { id: string; email: string };
+    user: { id: string; email: string | null; phone: string | null };
     balance: { available: number; reserved: number };
   }) => void;
 };
@@ -17,7 +17,7 @@ export function AuthDialog({
   onClose,
   onAuthenticated,
 }: AuthDialogProps) {
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -28,10 +28,10 @@ export function AuthDialog({
   async function requestCode() {
     setBusy(true);
     setError("");
-    const response = await fetch("/api/auth/request-code", {
+    const response = await fetch("/api/auth/request-phone-code", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ phone }),
     });
     const result = await response.json();
     setBusy(false);
@@ -43,10 +43,10 @@ export function AuthDialog({
   async function verifyCode() {
     setBusy(true);
     setError("");
-    const response = await fetch("/api/auth/verify-code", {
+    const response = await fetch("/api/auth/verify-phone-code", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email, code }),
+      body: JSON.stringify({ phone, code }),
     });
     const result = await response.json();
     setBusy(false);
@@ -77,15 +77,17 @@ export function AuthDialog({
         </div>
 
         <label className="mt-6 block text-sm font-medium text-neutral-800">
-          邮箱
+          手机号
           <span className="mt-2 flex items-center gap-2 rounded-md border px-3">
-            <Mail className="h-4 w-4 text-neutral-400" aria-hidden="true" />
+            <Smartphone className="h-4 w-4 text-neutral-400" aria-hidden="true" />
             <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              type="tel"
+              inputMode="numeric"
+              value={phone}
+              onChange={(event) => setPhone(event.target.value.replace(/\D/g, "").slice(0, 11))}
               className="min-h-11 w-full outline-none"
-              placeholder="name@example.com"
+              placeholder="请输入 11 位手机号"
+              maxLength={11}
             />
           </span>
         </label>
@@ -111,7 +113,7 @@ export function AuthDialog({
 
         <button
           type="button"
-          disabled={busy || !email || (sent && code.length !== 6)}
+          disabled={busy || phone.length !== 11 || (sent && code.length !== 6)}
           onClick={sent ? verifyCode : requestCode}
           className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-neutral-950 px-4 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
         >

@@ -19,3 +19,19 @@ test("mobile upload page keeps the paste path usable", async ({ page }) => {
   await page.getByRole("button", { name: "检查粘贴内容" }).click();
   await expect(page.getByRole("textbox", { name: "简历原文" })).toHaveValue("测试简历内容");
 });
+
+test("phone login saves the confirmed resume", async ({ page }) => {
+  const phone = `1380013${Math.floor(1000 + Math.random() * 9000)}`;
+  await page.goto("/start?service=diagnosis");
+  await page.getByRole("textbox", { name: "粘贴完整简历内容" }).fill("候选人\n产品经理\n负责增长项目");
+  await page.getByRole("button", { name: "检查粘贴内容" }).click();
+  await page.getByRole("button", { name: "确认材料并继续" }).click();
+
+  await expect(page.getByRole("dialog", { name: "登录后开始生成" })).toBeVisible();
+  await page.getByPlaceholder("请输入 11 位手机号").fill(phone);
+  await page.getByRole("button", { name: "发送验证码" }).click();
+  await expect(page.getByPlaceholder("6 位验证码")).toHaveValue(/\d{6}/);
+  await page.getByRole("button", { name: "登录并领取积分" }).click();
+
+  await expect(page.getByRole("heading", { name: "材料已保存" })).toBeVisible();
+});
