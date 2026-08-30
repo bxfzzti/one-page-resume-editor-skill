@@ -396,6 +396,7 @@ git commit -m "Implement immutable point ledger"
 - Create: `web/src/app/api/auth/request-code/route.ts`
 - Create: `web/src/app/api/auth/verify-code/route.ts`
 - Create: `web/src/app/api/auth/logout/route.ts`
+- Create: `web/src/app/api/auth/me/route.ts`
 - Create: `web/src/components/auth-dialog.tsx`
 
 **Interfaces:**
@@ -469,16 +470,18 @@ git commit -m "Add email login and welcome points"
 - Create: `web/src/lib/files/parse-resume.test.ts`
 - Create: `web/src/server/storage/storage.ts`
 - Create: `web/src/server/storage/local-storage.ts`
+- Create: `web/src/server/storage/local-storage.test.ts`
 - Create: `web/src/app/api/resumes/route.ts`
 - Create: `web/src/app/start/page.tsx`
 - Create: `web/src/components/resume-upload.tsx`
 - Create: `web/src/components/material-confirmation.tsx`
+- Create: `web/src/types/mammoth-browser.d.ts`
 
 **Interfaces:**
 - Produces: `parseResumeFile(file)`、`StorageAdapter.put/get/delete()`、`POST /api/resumes`。
 - Consumes: 当前用户、`resumeProjects`、`sourceFiles`。
 
-- [ ] **Step 1: 写解析测试**
+- [x] **Step 1: 写解析测试**
 
 ```ts
 it("accepts docx and pdf but rejects executable files", async () => {
@@ -488,13 +491,13 @@ it("accepts docx and pdf but rejects executable files", async () => {
 });
 ```
 
-- [ ] **Step 2: 运行测试并确认失败**
+- [x] **Step 2: 运行测试并确认失败**
 
 Run: `cd web && npm test -- src/lib/files/parse-resume.test.ts`
 
 Expected: FAIL，提示 `parseResumeFile` 不存在。
 
-- [ ] **Step 3: 实现浏览器解析**
+- [x] **Step 3: 实现浏览器解析**
 
 - DOCX 使用 Mammoth 提取文本。
 - PDF 使用 PDF.js 提取每页文本。
@@ -504,7 +507,7 @@ Expected: FAIL，提示 `parseResumeFile` 不存在。
 - 返回 `{ mimeType, originalName, text, warnings }`。
 - 不把游客文件发送到服务器。
 
-- [ ] **Step 4: 实现本地存储适配器**
+- [x] **Step 4: 实现本地存储适配器**
 
 ```ts
 export interface StorageAdapter {
@@ -516,11 +519,11 @@ export interface StorageAdapter {
 
 `LocalStorageAdapter` 只能写入 `LOCAL_STORAGE_PATH/<userId>/<resumeProjectId>/`，拒绝 `..` 和绝对路径。
 
-- [ ] **Step 5: 实现 `/start` 向导**
+- [x] **Step 5: 实现 `/start` 向导**
 
 页面步骤固定为：选择服务 → 上传或粘贴 → 材料确认 → 登录 → 价格确认。上传和材料确认不要求登录。
 
-- [ ] **Step 6: 登录后创建项目**
+- [x] **Step 6: 登录后创建项目**
 
 `POST /api/resumes` 验证资源所有权，保存项目、原始文件和解析文本。响应：
 
@@ -531,7 +534,7 @@ type CreateResumeResponse = {
 };
 ```
 
-- [ ] **Step 7: 运行测试并提交**
+- [x] **Step 7: 运行测试并提交**
 
 ```bash
 cd web
