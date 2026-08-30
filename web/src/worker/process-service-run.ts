@@ -22,8 +22,8 @@ function defaultModel(): ModelGateway {
     return new MockModelGateway();
   }
   return new HttpModelGateway(
-    process.env.MODEL_BASE_URL ?? "",
-    process.env.MODEL_NAME ?? "",
+    process.env.MODEL_BASE_URL ?? "https://open.bigmodel.cn/api/paas/v4",
+    process.env.MODEL_NAME ?? "glm-5.3",
     process.env.MODEL_API_KEY ?? "",
   );
 }
