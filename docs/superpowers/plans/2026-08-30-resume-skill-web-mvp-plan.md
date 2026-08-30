@@ -736,7 +736,7 @@ git commit -m "Add service runner and mock payments"
 - Produces: 首次单栏向导、结果后工作台、版本和事实风险 UI。
 - Consumes: 服务运行 API、版本、事实条目和积分流水。
 
-- [ ] **Step 1: 写渐进展示测试**
+- [x] **Step 1: 写渐进展示测试**
 
 ```tsx
 it("hides the full workspace before the first successful run", () => {
@@ -752,7 +752,7 @@ it("shows versions and fact drawer after a result exists", () => {
 });
 ```
 
-- [ ] **Step 2: 实现桌面工作台**
+- [x] **Step 2: 实现桌面工作台**
 
 - 结果前：单栏显示材料、追问和运行进度。
 - 结果后：左侧版本、中间结果、右侧可收起事实抽屉。
@@ -760,16 +760,16 @@ it("shows versions and fact drawer after a result exists", () => {
 - 不在默认正文显示内部事实编号。
 - 用户手动编辑后必须“另存为新版本”，不得静默覆盖 AI 结果。`PATCH /api/resume-versions/:versionId` 接收 `{ title, contentJson, baseVersionId }`，创建 `versionType=user_saved` 的新记录并返回新版本 ID。
 
-- [ ] **Step 3: 实现手机布局**
+- [x] **Step 3: 实现手机布局**
 
 宽度小于 768px 时使用“流程、当前结果、事实与风险”标签。按钮、文本和积分不得重叠；底部操作栏显示当前服务和积分。
 
-- [ ] **Step 4: 实现积分和账户页**
+- [x] **Step 4: 实现积分和账户页**
 
 - 积分页显示可用、冻结和流水；充值前明确测试支付。
 - 账户页显示删除简历、注销账户、贡献记录和撤回未来使用入口。
 
-- [ ] **Step 5: 运行测试并提交**
+- [x] **Step 5: 运行测试并提交**
 
 ```bash
 cd web
