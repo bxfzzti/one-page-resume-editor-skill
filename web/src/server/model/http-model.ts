@@ -23,6 +23,8 @@ export class HttpModelGateway implements ModelGateway {
     schema: z.ZodType<T>;
     requestId: string;
   }): Promise<T> {
+    const schemaJson = JSON.stringify(zod.toJSONSchema(input.schema));
+    const isDeepSeek = process.env.MODEL_PROVIDER === "deepseek";
     let lastError: unknown;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       const controller = new AbortController();
@@ -41,21 +43,26 @@ export class HttpModelGateway implements ModelGateway {
               model: this.model,
               temperature: 0,
               messages: [
-                { role: "system", content: input.system },
+                {
+                  role: "system",
+                  content: `${input.system}\n\n请只返回合法 JSON。输出结构必须符合以下 schema：${schemaJson}`,
+                },
                 { role: "user", content: input.user },
               ],
               max_tokens: 4_096,
               ...(process.env.MODEL_PROVIDER === "glm"
                 ? { thinking: { type: "disabled" } }
                 : {}),
-              response_format: {
-                type: "json_schema",
-                json_schema: {
-                  name: "resume_service_output",
-                  strict: true,
-                  schema: zod.toJSONSchema(input.schema),
-                },
-              },
+              response_format: isDeepSeek
+                ? { type: "json_object" }
+                : {
+                    type: "json_schema",
+                    json_schema: {
+                      name: "resume_service_output",
+                      strict: true,
+                      schema: zod.toJSONSchema(input.schema),
+                    },
+                  },
             }),
             signal: controller.signal,
           },
