@@ -15,3 +15,8 @@ export const PRIMARY_SERVICE_KINDS = [
   "jd_tailoring",
   "interview_review",
 ] as const satisfies readonly ServiceKind[];
+
+export const PUBLIC_PREVIEW_SERVICE_KINDS = [
+  "diagnosis",
+  "one_page",
+] as const satisfies readonly ServiceKind[];

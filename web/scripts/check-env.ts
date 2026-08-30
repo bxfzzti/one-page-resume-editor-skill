@@ -28,4 +28,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`环境配置通过：模型=${process.env.MODEL_PROVIDER}，存储=${process.env.STORAGE_DRIVER ?? "local"}，支付=${process.env.PAYMENT_PROVIDER ?? "mock"}`);
+console.log(`环境配置通过：模型=${process.env.MODEL_PROVIDER}，存储=${process.env.STORAGE_DRIVER ?? "local"}，支付=${process.env.PAYMENT_PROVIDER ?? "mock"}，访问=${process.env.AUTH_MODE ?? "anonymous_preview"}`);

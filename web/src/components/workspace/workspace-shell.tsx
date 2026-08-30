@@ -9,12 +9,13 @@ type Project = {
   title: string;
   versions: Array<{ id: string; title: string; versionType: string; contentJson: unknown }>;
   facts: Array<{ id: string; status: string; sourceExcerpt: string; riskText: string | null }>;
-  runs: Array<{ id: string; state: string; serviceKind: string }>;
+  runs: Array<{ id: string; state: string; serviceKind: string; outputSnapshot?: unknown; errorCode?: string | null }>;
+  resumeText?: string;
 };
 
 export function WorkspaceShell({ project }: { project: Project }) {
   const latest = project.versions[0];
-  const result = <ResultPanel version={latest} />;
+  const result = <ResultPanel version={latest} projectId={project.id} resumeText={project.resumeText ?? ""} runs={project.runs} />;
   const facts = <FactDrawer facts={project.facts} />;
   return (
     <main className="min-h-screen bg-stone-50">

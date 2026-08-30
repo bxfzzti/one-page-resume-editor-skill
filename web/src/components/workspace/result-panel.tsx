@@ -1,4 +1,5 @@
 import { VersionEditor } from "./version-editor";
+import { TaskLauncher } from "./task-launcher";
 
 type Version = {
   id: string;
@@ -6,12 +7,25 @@ type Version = {
   contentJson: unknown;
 };
 
-export function ResultPanel({ version }: { version?: Version }) {
+export function ResultPanel({
+  version,
+  projectId,
+  resumeText,
+  runs,
+}: {
+  version?: Version;
+  projectId?: string;
+  resumeText?: string;
+  runs?: Array<{ id: string; state: string; serviceKind: string; outputSnapshot?: unknown; errorCode?: string | null }>;
+}) {
   if (!version) {
     return (
       <section className="rounded-lg border border-dashed border-neutral-300 bg-white p-8 text-center">
         <h2 className="text-lg font-semibold">继续当前任务</h2>
-        <p className="mt-2 text-sm leading-6 text-neutral-600">选择一项服务，系统会先展示本次积分消耗，再开始生成。</p>
+        <p className="mt-2 text-sm leading-6 text-neutral-600">公开验证版无需注册，选择一项服务即可开始。</p>
+        {projectId && resumeText !== undefined && runs && (
+          <TaskLauncher projectId={projectId} resumeText={resumeText} initialRuns={runs} />
+        )}
       </section>
     );
   }

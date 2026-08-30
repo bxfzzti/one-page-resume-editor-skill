@@ -7,6 +7,7 @@ import { AuthDialog } from "@/components/auth-dialog";
 import { MaterialConfirmation } from "@/components/material-confirmation";
 import { parseResumeFile, TEXT_MIME } from "@/lib/files/parse-resume";
 import {
+  PUBLIC_PREVIEW_SERVICE_KINDS,
   SERVICE_CATALOG,
   type ServiceKind,
 } from "@/lib/service-catalog";
@@ -29,14 +30,23 @@ export function ResumeUpload() {
   const [error, setError] = useState("");
   const [authOpen, setAuthOpen] = useState(false);
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  const [previewMode, setPreviewMode] = useState(true);
+  const [remaining, setRemaining] = useState<number | null>(null);
   const [savedProjectId, setSavedProjectId] = useState("");
   const accepted = useMemo(() => ".pdf,.docx,.txt", []);
 
   useEffect(() => {
     void fetch("/api/auth/me")
       .then((response) => response.json())
-      .then((result) => setAuthenticated(Boolean(result.authenticated)))
-      .catch(() => setAuthenticated(false));
+      .then((result) => {
+        setAuthenticated(Boolean(result.authenticated));
+        setPreviewMode(Boolean(result.previewMode));
+        setRemaining(typeof result.remaining === "number" ? result.remaining : null);
+      })
+      .catch(() => {
+        setAuthenticated(false);
+        setPreviewMode(true);
+      });
   }, []);
 
   async function parseFile(file: File) {
@@ -68,8 +78,24 @@ export function ResumeUpload() {
   async function saveResume(options: { skipAuthCheck?: boolean } = {}) {
     if (!parsed) return;
     if (!options.skipAuthCheck && authenticated !== true) {
-      setAuthOpen(true);
-      return;
+      if (!previewMode) {
+        setAuthOpen(true);
+        return;
+      }
+      setBusy(true);
+      setError("");
+      const guestResponse = await fetch("/api/auth/guest", { method: "POST" });
+      const guestResult = await guestResponse.json();
+      if (!guestResponse.ok) {
+        setBusy(false);
+        return setError("公开测试暂时无法开始，请稍后重试。");
+      }
+      setAuthenticated(true);
+      setRemaining(typeof guestResult.remaining === "number" ? guestResult.remaining : null);
+    }
+    if (previewMode && !PUBLIC_PREVIEW_SERVICE_KINDS.includes(serviceKind as (typeof PUBLIC_PREVIEW_SERVICE_KINDS)[number])) {
+      setBusy(false);
+      return setError("公开验证版当前开放诊断和一页纸整理，其他服务稍后开放。");
     }
     setBusy(true);
     setError("");
@@ -82,6 +108,7 @@ export function ResumeUpload() {
     setBusy(false);
     if (response.status === 401) {
       setAuthenticated(false);
+      if (previewMode) return setError("公开测试会话已失效，请重新确认材料。");
       return setAuthOpen(true);
     }
     if (!response.ok) return setError("保存失败，请稍后重试。");
@@ -93,8 +120,13 @@ export function ResumeUpload() {
       <section className="rounded-lg border border-teal-200 bg-teal-50 p-6">
         <h2 className="text-lg font-semibold text-neutral-950">材料已保存</h2>
         <p className="mt-2 text-sm text-neutral-700">
-          下一步将执行“{service.label}”，预计消耗 {service.points} 积分。
+          {previewMode
+            ? `下一步将执行“${service.label}”，本次使用 1 次免费测试额度。`
+            : `下一步将执行“${service.label}”，预计消耗 ${service.points} 积分。`}
         </p>
+        {previewMode && remaining !== null && (
+          <p className="mt-2 text-sm text-neutral-600">今日还可测试 {remaining} 次。</p>
+        )}
         <a
           href={`/resumes/${savedProjectId}`}
           className="mt-5 inline-flex min-h-11 items-center rounded-md bg-neutral-950 px-5 text-sm font-medium text-white"
@@ -108,7 +140,9 @@ export function ResumeUpload() {
   return (
     <>
       <div className="mb-5 border-b border-neutral-200 pb-5">
-        <p className="text-sm font-medium text-teal-700">当前服务 · {service.points} 积分</p>
+        <p className="text-sm font-medium text-teal-700">
+          {previewMode ? "公开验证版 · 免费测试" : `当前服务 · ${service.points} 积分`}
+        </p>
         <h1 className="mt-2 text-2xl font-semibold text-neutral-950">{service.label}</h1>
         <p className="mt-2 text-sm text-neutral-600">
           文件先在浏览器中解析。确认材料前，不会上传到服务器。
@@ -167,15 +201,17 @@ export function ResumeUpload() {
       )}
 
       {error && <p className="mt-4 text-sm text-red-700">{error}</p>}
-      <AuthDialog
-        open={authOpen}
-        onClose={() => setAuthOpen(false)}
-        onAuthenticated={() => {
-          setAuthenticated(true);
-          setAuthOpen(false);
-          void saveResume({ skipAuthCheck: true });
-        }}
-      />
+      {!previewMode && (
+        <AuthDialog
+          open={authOpen}
+          onClose={() => setAuthOpen(false)}
+          onAuthenticated={() => {
+            setAuthenticated(true);
+            setAuthOpen(false);
+            void saveResume({ skipAuthCheck: true });
+          }}
+        />
+      )}
     </>
   );
 }

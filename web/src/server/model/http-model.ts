@@ -50,7 +50,7 @@ export class HttpModelGateway implements ModelGateway {
                 { role: "user", content: input.user },
               ],
               max_tokens: 4_096,
-              ...(process.env.MODEL_PROVIDER === "glm"
+              ...(process.env.MODEL_PROVIDER === "glm" || isDeepSeek
                 ? { thinking: { type: "disabled" } }
                 : {}),
               response_format: isDeepSeek
@@ -78,6 +78,12 @@ export class HttpModelGateway implements ModelGateway {
       } finally {
         clearTimeout(timeout);
       }
+    }
+    if (
+      lastError instanceof Error &&
+      (lastError.name === "AbortError" || lastError.message === "This operation was aborted")
+    ) {
+      throw new Error("MODEL_TIMEOUT");
     }
     throw new Error(
       lastError instanceof Error ? lastError.message : "MODEL_REQUEST_FAILED",

@@ -10,6 +10,12 @@ const input = z.object({ serviceRunId: z.string().uuid(), consentVersion: z.stri
 export async function POST(request: Request) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ ok: false, error: "UNAUTHORIZED" }, { status: 401 });
+  if (user.isAnonymous) {
+    return NextResponse.json(
+      { ok: false, error: "GUEST_CONTRIBUTION_DISABLED" },
+      { status: 403 },
+    );
+  }
   try {
     const value = input.parse(await request.json());
     const service = new ContributionService(db, new PointLedgerService(db));

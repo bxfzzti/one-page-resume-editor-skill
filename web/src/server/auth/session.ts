@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { and, eq, gt, isNull } from "drizzle-orm";
+import { and, eq, gt, isNull, or } from "drizzle-orm";
 import { db } from "@/db/client";
 import { sessions, users } from "@/db/schema";
 import { hashSessionToken } from "./otp";
@@ -41,6 +41,7 @@ export async function getCurrentUser() {
         eq(sessions.tokenHash, hashSessionToken(token)),
         gt(sessions.expiresAt, new Date()),
         isNull(users.deletedAt),
+        or(eq(users.isAnonymous, false), gt(users.anonymousExpiresAt, new Date())),
       ),
     )
     .limit(1);

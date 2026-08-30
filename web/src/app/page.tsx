@@ -7,7 +7,13 @@ import {
   Upload,
 } from "lucide-react";
 import { AppHeader } from "@/components/app-header";
-import { PRIMARY_SERVICE_KINDS, SERVICE_CATALOG, type ServiceKind } from "@/lib/service-catalog";
+import {
+  PRIMARY_SERVICE_KINDS,
+  PUBLIC_PREVIEW_SERVICE_KINDS,
+  SERVICE_CATALOG,
+  type ServiceKind,
+} from "@/lib/service-catalog";
+import { isAnonymousPreviewEnabled } from "@/server/config/mode";
 
 const SERVICE_ICONS: Record<(typeof PRIMARY_SERVICE_KINDS)[number], typeof ClipboardCheck> = {
   diagnosis: ClipboardCheck,
@@ -28,18 +34,24 @@ function serviceHref(kind: ServiceKind) {
 }
 
 export default function HomePage() {
+  const previewMode = isAnonymousPreviewEnabled();
+  const serviceKinds = previewMode ? PUBLIC_PREVIEW_SERVICE_KINDS : PRIMARY_SERVICE_KINDS;
   return (
     <main className="min-h-screen">
       <AppHeader />
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8">
         <div className="grid gap-5 border-b border-neutral-200 pb-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
           <div>
-            <p className="text-sm font-medium text-teal-700">首次注册赠送 50 积分</p>
+            <p className="text-sm font-medium text-teal-700">
+              {previewMode ? "公开验证版 · 每日 3 次免费测试" : "首次注册赠送 50 积分"}
+            </p>
             <h1 className="mt-3 text-2xl font-semibold leading-tight text-neutral-950 sm:text-3xl">
               你今天想完成什么？
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-neutral-600">
-              选择任务后上传简历，生成前会明确显示本次消耗；基础 Word/PDF 导出免费。
+              {previewMode
+                ? "无需注册即可体验。简历仅用于本次测试，临时保存 24 小时后自动清理。"
+                : "选择任务后上传简历，生成前会明确显示本次消耗；基础 Word/PDF 导出免费。"}
             </p>
           </div>
           <a
@@ -52,7 +64,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid gap-3 md:grid-cols-2">
-          {PRIMARY_SERVICE_KINDS.map((kind) => {
+          {serviceKinds.map((kind) => {
             const item = SERVICE_CATALOG[kind];
             const Icon = SERVICE_ICONS[kind];
 
@@ -76,7 +88,9 @@ export default function HomePage() {
                   </span>
                 </span>
                 <span className="mt-5 flex items-center justify-between gap-3 text-sm">
-                  <span className="font-medium text-teal-800">{item.points} 积分</span>
+                  <span className="font-medium text-teal-800">
+                    {previewMode ? "免费测试" : `${item.points} 积分`}
+                  </span>
                   <span className="inline-flex items-center gap-1 text-neutral-500 transition group-hover:text-neutral-900">
                     开始
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
