@@ -560,7 +560,7 @@ git commit -m "Add resume parsing and storage"
 - Produces: `SkillLoader.load(serviceKind)`、`ModelGateway.generate()`、`auditGeneratedSentences()`。
 - Consumes: 根目录 Skill 与 references、`ServiceKind`。
 
-- [ ] **Step 1: 写 Skill 路由测试**
+- [x] **Step 1: 写 Skill 路由测试**
 
 ```ts
 it("loads only required references for diagnosis", async () => {
@@ -578,7 +578,7 @@ it("loads JD and role rules for growth tailoring", async () => {
 });
 ```
 
-- [ ] **Step 2: 写来源审计失败测试**
+- [x] **Step 2: 写来源审计失败测试**
 
 ```ts
 it("rejects contribution upgrades", () => {
@@ -591,7 +591,7 @@ it("rejects contribution upgrades", () => {
 });
 ```
 
-- [ ] **Step 3: 实现 Skill 加载器**
+- [x] **Step 3: 实现 Skill 加载器**
 
 - 通过 `process.cwd()` 向上定位仓库根目录。
 - 每次加载 `SKILL.md` 和当前任务需要的 references。
@@ -606,7 +606,7 @@ export type SkillBundle = {
 };
 ```
 
-- [ ] **Step 4: 定义模型接口与 schema**
+- [x] **Step 4: 定义模型接口与 schema**
 
 ```ts
 export interface ModelGateway {
@@ -621,7 +621,7 @@ export interface ModelGateway {
 
 所有服务输出共享：任务识别、事实条目、风险、追问和 `sentences[{ text, factIds }]`。JD 定制额外包含 JD 要求、证据等级、版本修改记录和独立版本。
 
-- [ ] **Step 5: 实现模型适配器**
+- [x] **Step 5: 实现模型适配器**
 
 - `MockModelGateway` 返回测试 fixture。
 - `HttpModelGateway` 使用 `MODEL_BASE_URL`、`MODEL_NAME` 和服务端 `MODEL_API_KEY`。
@@ -629,11 +629,11 @@ export interface ModelGateway {
 - 请求超时 60 秒，最多重试一次。
 - 只接受 JSON 结构化输出；解析或 Zod 校验失败抛出 `MODEL_OUTPUT_INVALID`。
 
-- [ ] **Step 6: 实现来源审计**
+- [x] **Step 6: 实现来源审计**
 
 检查：事实编号存在；数字、公司、岗位、项目和专有名词一致；贡献动词不升级；待确认项不进入正文；多个 JD 不交叉带入无证据关键词。
 
-- [ ] **Step 7: 运行测试并提交**
+- [x] **Step 7: 运行测试并提交**
 
 ```bash
 cd web
@@ -660,7 +660,7 @@ git commit -m "Add Skill model and source audit layer"
 - Produces: `ServiceRunner.create()`、`ServiceRunner.get()`、worker、测试支付订单。
 - Consumes: 积分账本、Skill 加载器、模型网关、来源审计。
 
-- [ ] **Step 1: 写状态机测试**
+- [x] **Step 1: 写状态机测试**
 
 ```ts
 it("settles only after valid audited output", async () => {
@@ -679,7 +679,7 @@ it("releases points after audit failure", async () => {
 });
 ```
 
-- [ ] **Step 2: 实现服务创建**
+- [x] **Step 2: 实现服务创建**
 
 `POST /api/service-runs` 接收：
 
@@ -694,18 +694,18 @@ type CreateServiceRunInput = {
 
 服务端重新计算价格；前端价格不能作为结算依据。创建任务与冻结积分在同一事务内完成。
 
-- [ ] **Step 3: 实现 worker**
+- [x] **Step 3: 实现 worker**
 
 worker 轮询 `reserved` 任务，原子更新为 `running`，加载输入快照和 Skill，调用模型，执行 schema 和来源审计，成功后保存事实与版本并结算积分；任一步失败均记录错误码并释放积分。`npm run worker -- --once` 只处理当前最早的一条可运行任务并退出，供测试和验收使用；不带 `--once` 时持续轮询。
 
-- [ ] **Step 4: 实现测试支付**
+- [x] **Step 4: 实现测试支付**
 
 - 支持自定义 1 至 99 元整数金额，按 1:10 到账。
 - 支持 5/50、10/110、20/240、50/650 积分包。
 - 模拟回调必须使用订单幂等键，重复回调只到账一次。
 - 页面和订单明确显示“测试支付，不会真实扣款”。
 
-- [ ] **Step 5: 运行测试并提交**
+- [x] **Step 5: 运行测试并提交**
 
 ```bash
 cd web
