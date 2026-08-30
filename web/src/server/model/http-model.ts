@@ -44,6 +44,10 @@ export class HttpModelGateway implements ModelGateway {
                 { role: "system", content: input.system },
                 { role: "user", content: input.user },
               ],
+              max_tokens: 4_096,
+              ...(process.env.MODEL_PROVIDER === "glm"
+                ? { thinking: { type: "disabled" } }
+                : {}),
               response_format: {
                 type: "json_schema",
                 json_schema: {
