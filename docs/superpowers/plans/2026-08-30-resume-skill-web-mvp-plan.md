@@ -919,11 +919,11 @@ git commit -m "Add consent and privacy controls"
 - Produces: 可重复的浏览器、Skill 和文件验收；本地可访问 URL。
 - Consumes: Tasks 1-10 的完整 Web MVP。
 
-- [ ] **Step 1: 建立 Playwright 配置**
+- [x] **Step 1: 建立 Playwright 配置**
 
 配置桌面 `1440x900`、手机 `390x844` 两个项目，使用真实开发服务器和独立测试数据库。测试完成后保留失败截图和 trace。
 
-- [ ] **Step 2: 实现首次流程 E2E**
+- [x] **Step 2: 实现首次流程 E2E**
 
 测试：游客选择通用诊断 → 上传虚拟简历 → 确认材料 → 邮箱登录 → 获得 50 积分 → 明确看到消耗 5 积分 → 成功生成 → 余额 45 → 导出 Word/PDF。
 
