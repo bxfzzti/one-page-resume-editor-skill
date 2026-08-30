@@ -12,6 +12,7 @@
     "test:watch": "vitest",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "check:env": "tsx scripts/check-env.ts",
     "worker": "tsx src/worker/index.ts",
     "e2e": "playwright test"
   },
