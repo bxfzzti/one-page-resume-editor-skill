@@ -848,7 +848,7 @@ git commit -m "Add verified Word and PDF export"
 - Produces: `deidentifyTrainingSample()`、`ContributionService.consent()`、`withdraw()`、`DataDeletionService.deleteResume()`、`deleteAccount()`。
 - Consumes: 成功服务结果、事实条目、积分账本。
 
-- [ ] **Step 1: 写隐私失败测试**
+- [x] **Step 1: 写隐私失败测试**
 
 ```ts
 it("removes direct identifiers and raw file references", () => {
@@ -872,11 +872,11 @@ it("deletes work data but preserves required billing ledger", async () => {
 });
 ```
 
-- [ ] **Step 2: 实现脱敏**
+- [x] **Step 2: 实现脱敏**
 
 删除电话、邮箱、微信、住址、身份证、内部链接、客户名、敏感项目名和原始文件引用；公司、项目和日期组合替换为稳定代号。检测到金融、医疗、未成年人或无法可靠脱敏内容时拒绝入库。
 
-- [ ] **Step 3: 实现授权和撤回**
+- [x] **Step 3: 实现授权和撤回**
 
 - 提示在结果完成后出现，默认不勾选。
 - 同意记录 `consentVersion` 和任务 ID。
@@ -884,7 +884,7 @@ it("deletes work data but preserves required billing ledger", async () => {
 - 撤回后停止未来使用，并删除尚未进入训练批次的样本。
 - 拒绝或撤回不影响工作数据和服务。
 
-- [ ] **Step 4: 实现简历和账户删除**
+- [x] **Step 4: 实现简历和账户删除**
 
 - 删除单份简历时删除原始文件、解析文本、事实、JD 和版本；保留已结算服务运行和积分流水中的必要金额与状态，去除正文快照。
 - 删除账户时撤销会话、删除所有工作数据、删除未进入训练批次的贡献样本，并把用户记录软删除。
@@ -892,7 +892,7 @@ it("deletes work data but preserves required billing ledger", async () => {
 - 每个删除操作写入不包含简历正文的 `auditEvents`。
 - API 必须再次验证邮箱验证码，防止仅凭现有会话误删。
 
-- [ ] **Step 5: 运行测试并提交**
+- [x] **Step 5: 运行测试并提交**
 
 ```bash
 cd web
