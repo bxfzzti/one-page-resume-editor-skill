@@ -794,7 +794,7 @@ git commit -m "Build progressive resume workspace"
 - Produces: `generateDocx()`、`generatePdf()`、`verifyExport()`。
 - Consumes: 已确认 `resumeVersions`。
 
-- [ ] **Step 1: 写导出测试**
+- [x] **Step 1: 写导出测试**
 
 ```ts
 it("creates editable docx and text-readable pdf from the same content", async () => {
@@ -807,19 +807,19 @@ it("creates editable docx and text-readable pdf from the same content", async ()
 });
 ```
 
-- [ ] **Step 2: 实现 DOCX**
+- [x] **Step 2: 实现 DOCX**
 
 使用 `docx` 创建真实段落、标题和列表；姓名、联系方式、公司、岗位、时间和项目必须可复制。不得把整页导出为图片。
 
-- [ ] **Step 3: 实现 PDF**
+- [x] **Step 3: 实现 PDF**
 
 从与 DOCX 相同的内容模型生成打印 HTML，使用 Playwright Chromium 输出 PDF。若一页会损失已确认事实，返回 `TWO_PAGES_RECOMMENDED`，不强制压缩。
 
-- [ ] **Step 4: 实现回读验证**
+- [x] **Step 4: 实现回读验证**
 
 验证页数、关键字段文本、数字和项目名；生成页面 PNG 供视觉检查。验证失败不返回下载链接。
 
-- [ ] **Step 5: 运行测试并提交**
+- [x] **Step 5: 运行测试并提交**
 
 ```bash
 cd web
