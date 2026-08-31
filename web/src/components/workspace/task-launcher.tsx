@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Loader2, Play } from "lucide-react";
+import { FeedbackForm } from "./feedback-form";
 
 type ServiceKind = "diagnosis" | "one_page";
 type Run = {
@@ -99,6 +100,7 @@ export function TaskLauncher({
         <pre className="mt-3 max-h-[55vh] overflow-auto whitespace-pre-wrap rounded-md bg-neutral-50 p-4 text-sm leading-6 text-neutral-800">
           {JSON.stringify(run.outputSnapshot, null, 2)}
         </pre>
+        <FeedbackForm serviceRunId={run.id} />
         <button
           type="button"
           onClick={() => setRun(null)}
@@ -134,9 +136,12 @@ export function TaskLauncher({
         <p className="mt-3 text-sm text-neutral-600">正在处理，页面会自动更新结果。</p>
       ) : null}
       {run?.state === "failed" && (
-        <p className="mt-3 text-sm text-red-700">
-          {ERROR_MESSAGES[run.errorCode ?? ""] ?? "任务暂时未完成，请稍后再试。"}
-        </p>
+        <>
+          <p className="mt-3 text-sm text-red-700">
+            {ERROR_MESSAGES[run.errorCode ?? ""] ?? "任务暂时未完成，请稍后再试。"}
+          </p>
+          <FeedbackForm serviceRunId={run.id} />
+        </>
       )}
       {error && <p className="mt-3 text-sm text-red-700">{error}</p>}
     </div>

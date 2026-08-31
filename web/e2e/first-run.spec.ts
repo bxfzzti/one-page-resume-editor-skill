@@ -58,4 +58,17 @@ test("anonymous preview saves the confirmed resume", async ({ page }) => {
   });
   await page.getByRole("button", { name: /看看简历问题/ }).click();
   await expect(page.getByText("任务已完成")).toBeVisible();
+
+  await page.route("**/api/feedback", async (route) => {
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true, feedback: { id: "feedback-1" } }),
+    });
+  });
+  await page.getByRole("button", { name: "提交反馈" }).click();
+  await page.getByLabel("问题类型").selectOption("fact_error");
+  await page.getByRole("button", { name: "没帮助" }).click();
+  await page.getByPlaceholder("哪里不准确、看不懂或不好用？").fill("事实边界需要解释得更清楚。");
+  await page.getByRole("button", { name: "提交匿名反馈" }).click();
+  await expect(page.getByText("感谢反馈，我们会用它改进公开验证版。")).toBeVisible();
 });
