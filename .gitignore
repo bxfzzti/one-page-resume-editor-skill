@@ -2,6 +2,7 @@ tests/regression/local-private/
 tests/regression/results/private-*
 web/.env
 web/.next/
+web/.next-e2e/
 web/node_modules/
 web/.data/
 web/.playwright-cli/

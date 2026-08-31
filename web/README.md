@@ -16,6 +16,8 @@ npm run dev
 
 ## 验证
 
+自动测试使用独立的 `resume_skill_test` 数据库。`npm test` 和 `npm run e2e` 会自动创建、迁移并清空测试库；测试库名称不是 `_test` 后缀时会拒绝执行。Playwright 固定使用端口 `3010` 和 Mock 模型，不会复用端口 `3000` 的公开服务。
+
 ```bash
 npm test
 npm run lint

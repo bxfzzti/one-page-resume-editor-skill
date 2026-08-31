@@ -8,13 +8,14 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test:prepare": "tsx scripts/prepare-test-db.ts",
+    "test": "npm run test:prepare && vitest run",
+    "test:watch": "npm run test:prepare && vitest",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "check:env": "tsx scripts/check-env.ts",
     "worker": "tsx src/worker/index.ts",
-    "e2e": "playwright test"
+    "e2e": "npm run test:prepare && tsx scripts/run-e2e.ts"
   },
   "dependencies": {
     "docx": "^9.7.1",
